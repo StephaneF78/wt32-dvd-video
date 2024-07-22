@@ -43,6 +43,22 @@
 #include "ui/ui.h"
 #endif
 
+#include "back/var.h"
+#include <WIFI.h>
+#include <FS.h>
+#include <SPIFFS.h>               // SPI Flash Syetem Library 
+#include <WiFiManager.h>
+#include <NTPClient.h>            // pour client NTP
+#include <WiFiUdp.h>              // pour client NTP
+#include "time.h"                 // ajouté pour Source : https://randomnerdtutorials.com/esp32-date-time-ntp-client-server-arduino/
+#include <ArduinoJson.h>          // Ajouté pour API EDF 
+#include <HTTPClient.h>           // Ajouté pour Weather, utile pour les résultats API
+#include "back/initWIFI.h"
+#include "back/horloge.h"           // structure pour l'horloge Accès au serveur de temps et affichage
+#include "back/accesRTE.h"           // Fonctions d'accès aux données RTE
+#include "back/moto.h"
+
+
 #ifdef PLUS
 #define SCR 30
 class LGFX : public lgfx::LGFX_Device
@@ -372,10 +388,54 @@ void setup()
 
     Timber.i("Setup done");
   }
+
+  initWIFI();   // oubien on part sur la connection directe avec SSID en dur
+  // ************ fin init WIFI ****************
+  initTimeNTP(); // Démarre la lecture de l'heure  ntp
+  printLocalTime(); // Récupère NTP et affiche l'heure sur l'écran
+  //setupMontreRonde();
+  setSynchroDate();
+  // getRTEData();
+  getMOTOData();    
+
 }
 
 void loop()
 {
   lv_timer_handler(); /* let the GUI do its work */
+  // reprise du code arduino
+  static uint32_t p_milli = 0;
+  uint32_t milli = lgfx::millis() % 1000; //
+
+  if (p_milli < milli) count +=        (milli - p_milli);
+  else                 count += 1000 + (milli - p_milli); // + 1s
+  p_milli = milli;
+  
+  int32_t tmp = (count % 1000) >> 3;
+  // count += 60000;  // Pour accélérer pour le debug
+  if ( count > oneday ) {
+     //printf("JourSuivant"); printf("%i",count);
+     count -= oneday; 
+     }
+
+  mototimerCurrent= lgfx::millis();
+  if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 * 15) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+      mototimerPrevious = mototimerCurrent;
+      getMOTOData();
+    }
+
+  RTEtimerCurrent= lgfx::millis();
+  if ( (RTEtimerCurrent-RTEtimerPrevious) > 1000) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+      RTEtimerPrevious = RTEtimerCurrent;
+      // Appel de l'affichage toutes les 15'
+      // suspendu getRTEData(); // on met à jour les données RTE tt les 15'
+      //count=setSynchroHour();   // Resynchro count avec le temps actuel en ms
+      //setSynchroDate();
+      // brightness = 55;
+      // tft.setBrightness(brightness);
+    
+    count=setSynchroHour(); // Resynchro avec l'heure NTP
+    
+    }
   delay(5);
 }
