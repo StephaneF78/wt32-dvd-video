@@ -1,5 +1,5 @@
 
-
+// On prend ici le certificat racine du site mongo
 const char* root_ca_moto =\
                           "-----BEGIN CERTIFICATE-----\n"\
                           "MIIFWjCCA0KgAwIBAgIQbkepxUtHDA3sM9CJuRz04TANBgkqhkiG9w0BAQwFADBH\n" \
@@ -88,6 +88,7 @@ bool getMOTOData() {
   bool requeteOK = true;
   char reponseMoto[2000];
   String reponseMotoString;
+  DynamicJsonDocument doc1(2000);
   
 
   if (WiFi.status() != WL_CONNECTED) {
@@ -96,35 +97,90 @@ bool getMOTOData() {
   WiFiClientSecure client; // ouvre un client sécurisé
   HTTPClient http;
   client.setCACert(root_ca_moto);    // positionne le certificat racine
+  Serial.print("Avant http.begin ");
   http.begin(client, mongolURI); // prépare l'appel à l'url 
-
   // Specify content-type header
   http.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
-
   // Send HTTP POST request
   codeReponseHTTP = http.POST(nullptr, 0);
+  Serial.println("après post ");
   lv_textarea_set_text(ui_Log, "Voila une reponse completement vide");
 
   if (codeReponseHTTP == HTTP_CODE_OK) {
-    reponseMotoString = http.getString();
-    //size_t size = reponseMotoString.size() + 1;
-    //strncpy(reponseMoto,reponseMotoString.c_str(),1000);
-    // Mettre dans l'affichage log
-    lv_textarea_set_text(ui_Log, reponseMotoString.c_str());
-      
-    }
-   else {
-    //    Serial.print("Authentification RTE : erreur HTTP POST: ");
-    // SBI 30/06/2024 à mapper LVGL lcd.printf("erreur authent RTE, le system va rebooter : %s",errorDescription(codeReponseHTTP, http));
-    // delay(120000);
-    // ESP.restart(); // si erreur on reboot
-    //    Serial.printf("s",errorDescription(codeReponseHTTP, http));
-    requeteOK = false;
+      reponseMotoString = http.getString();
+      Serial.println("aprèsaffectation http ");
+      char *  reponseMotoPointerChar;
+      Serial.println("avant strlcpy ");
+      strlcpy(reponseMotoPointerChar,reponseMotoString.c_str(),reponseMotoString.length()); 
+      Serial.println("après strlcpy ");
+      //lv_textarea_set_text(ui_Log, reponseMotoString.c_str());
+      doc1.clear();
+      DeserializationError error;
+      error = deserializeJson(doc1,reponseMotoPointerChar);
+      if (error) {
+        Serial.print("deserializeJson() failed: ");
+        Serial.println(error.c_str());
+        //lv_textarea_set_text(ui_Log, error.c_str());
+        return false;
+      }
+      JsonObject root_0 = doc1[0];
+      const char*  mileage = root_0["mileage"]; // "25583.1"
+      const char*  logic_state = root_0["logic_state"]; // "1"
+      const char*  reason = root_0["reason"]; // "5"
+      const char*  response = root_0["response"]; // "0"
+      float  longitude = root_0["longitude"]; // 2.1315
+      float  latitude = root_0["latitude"]; // 48.7836
+      const char*  altitude = root_0["altitude"]; // "173"
+      const char*  satellites = root_0["satellites"]; // "6"
+      const char*  velocity = root_0["velocity"]; // "16"
+      const char*  heading = root_0["heading"]; // "240"
+      const char*  emergency = root_0["emergency"]; // "0"
+      const char*  shock = root_0["shock"]; // nullptr
+      float  main_voltage = root_0["main_voltage"]; // 13.28
+      const char*  datetime_utc = root_0["datetime_utc"]; // "20240722153050"
+      const char*  address = root_0["address"]; // "BUC, Sente du Haras"
+      int  soc = root_0["soc"]; // 72
+      int  charging = root_0["charging"]; // 0
+      int  chargecomplete = root_0["chargecomplete"]; // 0
+      int  pluggedin = root_0["pluggedin"]; // 0
+      int  chargingtimeleft = root_0["chargingtimeleft"]; // 0
+      int  storage = root_0["storage"]; // 0
+      lv_textarea_set_text(ui_Log, (char *)soc);
+        
   }
-
+   else {    
+    requeteOK = false;
+   }
   http.end();
-  
-  // SBI 30/06/2024 à mapper lvgl lcd.printf("MAJ RTE :%s", heureCourante);
   return requeteOK;
 }
 
+      //int  tipover = root_0["tipover"]; // 0
+      //const char*  datetime_actual = root_0["datetime_actual"]; // "20240722153049"
+      //const char*  perimeter = root_0["perimeter"]; // nullptr
+      //int  color = root_0["color"]; // 2
+      //const char*  fuel = root_0["fuel"]; // nullptr
+      //float  analog3 = root_0["analog3"]; // 0.09
+      //const char*  siren = root_0["siren"]; // "0"
+      //const char*  lock = root_0["lock"]; // "0"
+      //const char*  int_lights = root_0["int_lights"]; // "0"
+
+      //const char*  driver = root_0["driver"]; // "0"
+      //const char*  gps_valid = root_0["gps_valid"]; // "1"
+      //const char*  gps_connected = root_0["gps_connected"]; // "1"
+      //const char*  ignition = root_0["ignition"]; // "0"
+      //const char*  door = root_0["door"]; // "0"
+      //const char*  hood = root_0["hood"]; // "0"
+      //const char*  volume = root_0["volume"]; // "0"
+      //const char*  water_temp = root_0["water_temp"]; // nullptr
+      //const char*  oil_pressure = root_0["oil_pressure"]; // "0"
+
+      //const char*  software_version = root_0["software_version"]; // "221208"
+
+      //const char*  unitnumber = root_0["unitnumber"]; // "798776"
+      //const char*  name = root_0["name"]; // "538ZFBZ70LCL13898"
+      //const char*  unittype = root_0["unittype"]; // "5"
+      //const char*  unitmodel = root_0["unitmodel"]; // "6"
+      //float  analog1 = root_0["analog1"]; // 0.09
+      //float  analog2 = root_0["analog2"]; // 0.09
+      //int  battery = root_0["battery"]; // 100

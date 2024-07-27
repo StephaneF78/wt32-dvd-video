@@ -115,7 +115,7 @@ bool getRTEData() {
   if (WiFi.status() != WL_CONNECTED) {
     Serial.print("WiFI non disponible. Requête impossible");
     delay(3000);
-    ESP.restart(); // si le WIFI est indispo on reboot pour réétablir la connexion
+    // ESP.restart(); // si le WIFI est indispo on reboot pour réétablir la connexion
     return false;
   }
   WiFiClientSecure client; // ouvre un client sécurisé
@@ -132,14 +132,14 @@ bool getRTEData() {
 
   if (codeReponseHTTP == HTTP_CODE_OK) {
     oauthPayload = http.getString();
-    JsonDocument doc; // SBI 1024 à la place de 192
+    StaticJsonDocument<1024> doc; // SBI 1024 à la place de 192
     DeserializationError error = deserializeJson(doc, oauthPayload);
     if (error) {
 //      Serial.printf("deserializeJson() oauthPayload failed: ");
 //      Serial.printf("%s",error.c_str());
         // SBI à traduire dans un champ texte LVGL lcd.print("Erreur deseri");
         delay(3000);
-        ESP.restart(); // si erreur on reboot
+        // ESP.restart(); // si erreur on reboot
         access_token = "";
         requeteOK = false;
     } else { // parsing effectué
@@ -149,7 +149,7 @@ bool getRTEData() {
 //    Serial.print("Authentification RTE : erreur HTTP POST: ");
     // SBI 30/06/2024 à mapper LVGL lcd.printf("erreur authent RTE, le system va rebooter : %s",errorDescription(codeReponseHTTP, http));
     delay(120000);
-    ESP.restart(); // si erreur on reboot
+    // ESP.restart(); // si erreur on reboot
 //    Serial.printf("s",errorDescription(codeReponseHTTP, http));
     requeteOK = false;
   }
@@ -238,7 +238,7 @@ bool getRTEData() {
     temposPayload = http.getString();
     //gfx->print("Apres recup http temposPayload=");
     //gfx->println(temposPayload);
-    JsonDocument doc;
+    StaticJsonDocument<1024> doc;
     DeserializationError error = deserializeJson(doc, temposPayload); // On désérialise sans filtre
     //lcd.setTextSize(1);
     //lcd.setCursor(20, 20);
@@ -248,7 +248,7 @@ bool getRTEData() {
       requeteOK = false;
       // SBI 30/06/2024 à mapper LVGL lcd.print("Erreur deseri2");
       delay(120000);
-      ESP.restart(); // si erreur on reboot
+      // ESP.restart(); // si erreur on reboot
 
 
     } else {
@@ -294,7 +294,7 @@ bool getRTEData() {
       // Nov 2023
       Serial.printf("Erreur appel RTE=%s", http.errorToString(codeReponseHTTP));
       delay(120000);
-      ESP.restart(); // si erreur on reboot
+      // ESP.restart(); // si erreur on reboot
     requeteOK = false;
   }
   /*

@@ -332,7 +332,8 @@ void logCallback(Level level, unsigned long time, String message)
 void setup()
 {
   Serial.begin(115200);
-
+  //while(!Serial);
+  bool error;
   Timber.setLogCallback(logCallback);
 
   tft.init();
@@ -396,7 +397,7 @@ void setup()
   //setupMontreRonde();
   setSynchroDate();
   // getRTEData();
-  getMOTOData();    
+  error = getMOTOData();    
 
 }
 
@@ -421,7 +422,8 @@ void loop()
   mototimerCurrent= lgfx::millis();
   if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 * 15) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
       mototimerPrevious = mototimerCurrent;
-      getMOTOData();
+      bool error;
+      error = getMOTOData();
     }
 
   RTEtimerCurrent= lgfx::millis();

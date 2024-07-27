@@ -38,7 +38,7 @@ void saveConfigFile()
   Serial.println(F("Saving configuration..."));
   
   // Create a JSON document
-  JsonDocument json;
+  StaticJsonDocument<200> json;
   json["testString"] = testString;
   json["testNumber"] = testNumber;
  
@@ -84,7 +84,7 @@ bool loadConfigFile()
       if (configFile)
       {
         Serial.println("Opened configuration file");
-        JsonDocument json;
+        StaticJsonDocument<500> json;
         DeserializationError error = deserializeJson(json, configFile);
         serializeJsonPretty(json, Serial);
         if (!error)
