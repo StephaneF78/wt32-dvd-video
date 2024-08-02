@@ -13,7 +13,8 @@ uint32_t mototimerPrevious=0;
 char heureCourante[20]; // Dernière heure obtenue formattée
 static int32_t day, month, year; // la date du jour en int32
 
-
+WiFiClientSecure *client = new WiFiClientSecure;
+HTTPClient https;
 
 // Report RTE
 #define GREY    0x8410

@@ -53,16 +53,16 @@ void ui_Conso_EDF_screen_init(void)
     lv_obj_set_style_text_opa(ui_ConsoClic, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_ConsoClic, &lv_font_montserrat_30, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-    ui_button_down = ui_buttondown_create(ui_Edf);
-    lv_obj_set_x(ui_button_down, 197);
-    lv_obj_set_y(ui_button_down, 130);
+    ui_button_down = ui_buttondown_create(ui_Conso_EDF);
+    lv_obj_set_x(ui_button_down, 208);
+    lv_obj_set_y(ui_button_down, 124);
     lv_obj_set_style_blend_mode(ui_button_down, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_button_down, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 
 
-    lv_obj_add_event_cb(ui_button_down, ui_event_button_down_buttondown, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Edf, ui_event_Edf, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_button_down, ui_event_button_down_buttondown, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_Conso_EDF, ui_event_Conso_EDF, LV_EVENT_ALL, NULL);
 
 }

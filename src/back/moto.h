@@ -1,71 +1,61 @@
-
 // On prend ici le certificat racine du site mongo
+
 const char* root_ca_moto =\
-                          "-----BEGIN CERTIFICATE-----\n"\
-                          "MIIFWjCCA0KgAwIBAgIQbkepxUtHDA3sM9CJuRz04TANBgkqhkiG9w0BAQwFADBH\n" \
-                          "MQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExM\n" \
-                          "QzEUMBIGA1UEAxMLR1RTIFJvb3QgUjEwHhcNMTYwNjIyMDAwMDAwWhcNMzYwNjIy\n" \
-                          "MDAwMDAwWjBHMQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNl\n" \
-                          "cnZpY2VzIExMQzEUMBIGA1UEAxMLR1RTIFJvb3QgUjEwggIiMA0GCSqGSIb3DQEB\n" \
-                          "AQUAA4ICDwAwggIKAoICAQC2EQKLHuOhd5s73L+UPreVp0A8of2C+X0yBoJx9vaM\n" \
-                          "f/vo27xqLpeXo4xL+Sv2sfnOhB2x+cWX3u+58qPpvBKJXqeqUqv4IyfLpLGcY9vX\n" \
-                          "mX7wCl7raKb0xlpHDU0QM+NOsROjyBhsS+z8CZDfnWQpJSMHobTSPS5g4M/SCYe7\n" \
-                          "zUjwTcLCeoiKu7rPWRnWr4+wB7CeMfGCwcDfLqZtbBkOtdh+JhpFAz2weaSUKK0P\n" \
-                          "fyblqAj+lug8aJRT7oM6iCsVlgmy4HqMLnXWnOunVmSPlk9orj2XwoSPwLxAwAtc\n" \
-                          "vfaHszVsrBhQf4TgTM2S0yDpM7xSma8ytSmzJSq0SPly4cpk9+aCEI3oncKKiPo4\n" \
-                          "Zor8Y/kB+Xj9e1x3+naH+uzfsQ55lVe0vSbv1gHR6xYKu44LtcXFilWr06zqkUsp\n" \
-                          "zBmkMiVOKvFlRNACzqrOSbTqn3yDsEB750Orp2yjj32JgfpMpf/VjsPOS+C12LOO\n" \
-                          "Rc92wO1AK/1TD7Cn1TsNsYqiA94xrcx36m97PtbfkSIS5r762DL8EGMUUXLeXdYW\n" \
-                          "k70paDPvOmbsB4om3xPXV2V4J95eSRQAogB/mqghtqmxlbCluQ0WEdrHbEg8QOB+\n" \
-                          "DVrNVjzRlwW5y0vtOUucxD/SVRNuJLDWcfr0wbrM7Rv1/oFB2ACYPTrIrnqYNxgF\n" \
-                          "lQIDAQABo0IwQDAOBgNVHQ8BAf8EBAMCAQYwDwYDVR0TAQH/BAUwAwEB/zAdBgNV\n" \
-                          "HQ4EFgQU5K8rJnEaK0gnhS9SZizv8IkTcT4wDQYJKoZIhvcNAQEMBQADggIBADiW\n" \
-                          "Cu49tJYeX++dnAsznyvgyv3SjgofQXSlfKqE1OXyHuY3UjKcC9FhHb8owbZEKTV1\n" \
-                          "d5iyfNm9dKyKaOOpMQkpAWBz40d8U6iQSifvS9efk+eCNs6aaAyC58/UEBZvXw6Z\n" \
-                          "XPYfcX3v73svfuo21pdwCxXu11xWajOl40k4DLh9+42FpLFZXvRq4d2h9mREruZR\n" \
-                          "gyFmxhE+885H7pwoHyXa/6xmld01D1zvICxi/ZG6qcz8WpyTgYMpl0p8WnK0OdC3\n" \
-                          "d8t5/Wk6kjftbjhlRn7pYL15iJdfOBL07q9bgsiG1eGZbYwE8na6SfZu6W0eX6Dv\n" \
-                          "J4J2QPim01hcDyxC2kLGe4g0x8HYRZvBPsVhHdljUEn2NIVq4BjFbkerQUIpm/Zg\n" \
-                          "DdIx02OYI5NaAIFItO/Nis3Jz5nu2Z6qNuFoS3FJFDYoOj0dzpqPJeaAcWErtXvM\n" \
-                          "+SUWgeExX6GjfhaknBZqlxi9dnKlC54dNuYvoS++cJEPqOba+MSSQGwlfnuzCdyy\n" \
-                          "F62ARPBopY+Udf90WuioAnwMCeKpSwughQtiue+hMZL77/ZRBIls6Kl0obsXs7X9\n" \
-                          "SQ98POyDGCBDTtWTurQ0sR8WNh8M5mQ5Fkzc4P4dyKliPUDqysU0ArSuiYgzNdws\n" \
-                          "E3PYJ/HQcu51OyLemGhmW/HGY0dVHLqlCFF1pkgl\n" \
+                           "-----BEGIN CERTIFICATE-----\n" \
+                          "MIICCTCCAY6gAwIBAgINAgPlwGjvYxqccpBQUjAKBggqhkjOPQQDAzBHMQswCQYD\n" \
+                          "VQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzEUMBIG\n" \
+                          "A1UEAxMLR1RTIFJvb3QgUjQwHhcNMTYwNjIyMDAwMDAwWhcNMzYwNjIyMDAwMDAw\n" \
+                          "WjBHMQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2Vz\n" \
+                          "IExMQzEUMBIGA1UEAxMLR1RTIFJvb3QgUjQwdjAQBgcqhkjOPQIBBgUrgQQAIgNi\n" \
+                          "AATzdHOnaItgrkO4NcWBMHtLSZ37wWHO5t5GvWvVYRg1rkDdc/eJkTBa6zzuhXyi\n" \
+                          "QHY7qca4R9gq55KRanPpsXI5nymfopjTX15YhmUPoYRlBtHci8nHc8iMai/lxKvR\n" \
+                          "HYqjQjBAMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW\n" \
+                          "BBSATNbrdP9JNqPV2Py1PsVq8JQdjDAKBggqhkjOPQQDAwNpADBmAjEA6ED/g94D\n" \
+                          "9J+uHXqnLrmvT/aDHQ4thQEd0dlq7A/Cr8deVl5c1RxYIigL9zC2L7F8AjEA8GE8\n" \
+                          "p/SgguMh1YQdc4acLa/KNJvxn7kjNuK8YAOdgLOaVsjh4rsUecrNIdSUtUlD\n" \
                           "-----END CERTIFICATE-----\n";
 
-/* Certificat racine de mongo .... à reporter
-"-----BEGIN CERTIFICATE-----\n"\
-"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\n" \
-"-----END CERTIFICATE-----\n" \;
+/*
+                          "-----BEGIN CERTIFICATE-----\n" \
+                          "MIIDnzCCA0SgAwIBAgIQUV7GYfw2r5MTnjsLdDPs2DAKBggqhkjOPQQDAjA7MQsw\n" \
+                          "CQYDVQQGEwJVUzEeMBwGA1UEChMVR29vZ2xlIFRydXN0IFNlcnZpY2VzMQwwCgYD\n" \
+                          "VQQDEwNXRTEwHhcNMjQwNzI3MjI1NzEwWhcNMjQxMDI1MjI1NzA5WjAUMRIwEAYD\n" \
+                          "VQQDEwlicm9uby5jb20wWTATBgcqhkjOPQIBBggqhkjOPQMBBwNCAAQeEwrSszyP\n" \
+                          "4QirQ4YDxOxis7ZrUotnwhHPpmL/OQ+LutePw9EeqtNBJSSxUqsj54Zu+6Io/i5P\n" \
+                          "8W0NugRmdla1o4ICTzCCAkswDgYDVR0PAQH/BAQDAgeAMBMGA1UdJQQMMAoGCCsG\n" \
+                          "AQUFBwMBMAwGA1UdEwEB/wQCMAAwHQYDVR0OBBYEFEEqjz9Kez9IDh2w3FNPLiQe\n" \
+                          "9nA/MB8GA1UdIwQYMBaAFJB3kjVnxP+ozKnme9mAeXvMk/k4MF4GCCsGAQUFBwEB\n" \
+                          "BFIwUDAnBggrBgEFBQcwAYYbaHR0cDovL28ucGtpLmdvb2cvcy93ZTEvVVY0MCUG\n" \
+                          "CCsGAQUFBzAChhlodHRwOi8vaS5wa2kuZ29vZy93ZTEuY3J0MCEGA1UdEQQaMBiC\n" \
+                          "CWJyb25vLmNvbYILKi5icm9uby5jb20wEwYDVR0gBAwwCjAIBgZngQwBAgEwNgYD\n" \
+                          "VR0fBC8wLTAroCmgJ4YlaHR0cDovL2MucGtpLmdvb2cvd2UxLzZsZXh3ZkQ4cGVR\n" \
+                          "LmNybDCCAQQGCisGAQQB1nkCBAIEgfUEgfIA8AB3AHb/iD8KtvuVUcJhzPWHujS0\n" \
+                          "pM27KdxoQgqf5mdMWjp0AAABkPagesYAAAQDAEgwRgIhAL9O3oTiSizVxChzLFIw\n" \
+                          "BV15/kH1a5ZEHzCH8vv7EzZNAiEAiWEFfqLrljWPYriQH/xCkiawVzz5fdTTnh2K\n" \
+                          "+lKFOk0AdQDatr9rP7W2Ip+bwrtca+hwkXFsu1GEhTS9pD0wSNf7qwAAAZD2oHrP\n" \
+                          "AAAEAwBGMEQCIDo4wYScZ+Ds8ByaXjzM0QNpge0Y/egZhvVzGqzhnXqQAiAnQ3n5\n" \
+                          "sUDF44kE+Zda2znTkar8l3Yl9D42hQN7DqiA0zAKBggqhkjOPQQDAgNJADBGAiEA\n" \
+                          "4f+T8Ycc2UJzcCdiWC4S3DTxB66s0PrWR89JvKoiJh4CIQDPOkIk9aCjtjRqlMpT\n" \
+                          "vf6HHLpmJXSamSJ1tUcigOR4tg==\n" \
+                          "-----END CERTIFICATE-----\n";
 */
+                          /* Certificat racine
+
+                          "-----BEGIN CERTIFICATE-----\n" \
+                          "MIICCTCCAY6gAwIBAgINAgPlwGjvYxqccpBQUjAKBggqhkjOPQQDAzBHMQswCQYD\n" \
+                          "VQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzEUMBIG\n" \
+                          "A1UEAxMLR1RTIFJvb3QgUjQwHhcNMTYwNjIyMDAwMDAwWhcNMzYwNjIyMDAwMDAw\n" \
+                          "WjBHMQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2Vz\n" \
+                          "IExMQzEUMBIGA1UEAxMLR1RTIFJvb3QgUjQwdjAQBgcqhkjOPQIBBgUrgQQAIgNi\n" \
+                          "AATzdHOnaItgrkO4NcWBMHtLSZ37wWHO5t5GvWvVYRg1rkDdc/eJkTBa6zzuhXyi\n" \
+                          "QHY7qca4R9gq55KRanPpsXI5nymfopjTX15YhmUPoYRlBtHci8nHc8iMai/lxKvR\n" \
+                          "HYqjQjBAMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW\n" \
+                          "BBSATNbrdP9JNqPV2Py1PsVq8JQdjDAKBggqhkjOPQQDAwNpADBmAjEA6ED/g94D\n" \
+                          "9J+uHXqnLrmvT/aDHQ4thQEd0dlq7A/Cr8deVl5c1RxYIigL9zC2L7F8AjEA8GE8\n" \
+                          "p/SgguMh1YQdc4acLa/KNJvxn7kjNuK8YAOdgLOaVsjh4rsUecrNIdSUtUlD\n" \
+                          "-----END CERTIFICATE-----\n";
+*/
+
 
 
 /* Information pour la moto 
@@ -84,46 +74,50 @@ const char* mongolURI =          "https://mongol.brono.com/mongol/api.php?comman
 
 bool getMOTOData() {
   //String reponseMoto;
-  int codeReponseHTTP;
   bool requeteOK = true;
-  char reponseMoto[2000];
-  String reponseMotoString;
-  DynamicJsonDocument doc1(2000);
+  const char* reponseMoto[2000];
+  StaticJsonDocument<2000> doc1;
   
-
   if (WiFi.status() != WL_CONNECTED) {
     return false;
   }
-  WiFiClientSecure client; // ouvre un client sécurisé
-  HTTPClient http;
-  client.setCACert(root_ca_moto);    // positionne le certificat racine
-  Serial.print("Avant http.begin ");
-  http.begin(client, mongolURI); // prépare l'appel à l'url 
+  // WiFiClientSecure client; // ouvre un client sécurisé
+  // HTTPClient http;
+  client->setCACert(root_ca_moto);    // positionne le certificat racine
+  Serial.println("Avant http.begin ");
+  https.begin(*client, mongolURI); // prépare l'appel à l'url 
   // Specify content-type header
-  http.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
+  //http.addHeader("accept", "application/json");
+  https.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
   // Send HTTP POST request
-  codeReponseHTTP = http.POST(nullptr, 0);
-  Serial.println("après post ");
-  lv_textarea_set_text(ui_Log, "Voila une reponse completement vide");
+  //int codeReponseHTTP = http.POST(nullptr, 0);
+  int codeReponseHTTP = https.GET();
+  if (codeReponseHTTP > 0) {
+      // HTTP header has been send and Server response header has been handled
+      Serial.printf("[HTTPS] GET... code: %d\n\n", codeReponseHTTP);
 
-  if (codeReponseHTTP == HTTP_CODE_OK) {
-      reponseMotoString = http.getString();
-      Serial.println("aprèsaffectation http ");
-      char *  reponseMotoPointerChar;
-      Serial.println("avant strlcpy ");
-      strlcpy(reponseMotoPointerChar,reponseMotoString.c_str(),reponseMotoString.length()); 
-      Serial.println("après strlcpy ");
-      //lv_textarea_set_text(ui_Log, reponseMotoString.c_str());
+    if (codeReponseHTTP == HTTP_CODE_OK || codeReponseHTTP == HTTP_CODE_MOVED_PERMANENTLY) {
+      String payload = https.getString(); // La réponse
+      // strlcpy(*reponseMoto, char* payload.c_str(),payload.length);
+      //lv_textarea_set_text(ui_Log, payload.c_str() );
+      Serial.println(payload); 
       doc1.clear();
-      DeserializationError error;
-      error = deserializeJson(doc1,reponseMotoPointerChar);
+      Serial.println("Avant deserialization");
+      *reponseMoto = payload.c_str(); // convertir un string en char *
+      Serial.println("*reponseMoto=");
+      Serial.println(*reponseMoto);
+      DeserializationError error = deserializeJson(doc1, *reponseMoto); /////////////////////////////////////
+      Serial.println("Apres deserialisation");
       if (error) {
         Serial.print("deserializeJson() failed: ");
         Serial.println(error.c_str());
-        //lv_textarea_set_text(ui_Log, error.c_str());
+        lv_textarea_set_text(ui_Log, "Erreur de désérialisation");                                    //lv_textarea_set_text(ui_Log, error.c_str());
         return false;
       }
-      JsonObject root_0 = doc1[0];
+      Serial.println("Avant JSON ");
+      //JsonObject root_0 = doc1[0];
+      //JsonObject root_0 = doc1[0];
+      JsonObject root_0 = doc1.as<JsonObject>();  
       const char*  mileage = root_0["mileage"]; // "25583.1"
       const char*  logic_state = root_0["logic_state"]; // "1"
       const char*  reason = root_0["reason"]; // "5"
@@ -139,19 +133,55 @@ bool getMOTOData() {
       float  main_voltage = root_0["main_voltage"]; // 13.28
       const char*  datetime_utc = root_0["datetime_utc"]; // "20240722153050"
       const char*  address = root_0["address"]; // "BUC, Sente du Haras"
-      int  soc = root_0["soc"]; // 72
+      int  intSoc = root_0["soc"];
+      const char*  soc = root_0["soc"]; // 72
+      
       int  charging = root_0["charging"]; // 0
       int  chargecomplete = root_0["chargecomplete"]; // 0
       int  pluggedin = root_0["pluggedin"]; // 0
       int  chargingtimeleft = root_0["chargingtimeleft"]; // 0
       int  storage = root_0["storage"]; // 0
-      lv_textarea_set_text(ui_Log, (char *)soc);
-        
-  }
-   else {    
-    requeteOK = false;
-   }
-  http.end();
+      char charSoc[4] ={"99"};
+      Serial.println("Apres JSON ");
+      //int16_t intSoc = 88;
+      //charSoc[0] = *soc;
+      //sscanf(charSoc,"%s",soc); // copie la const dans char
+      
+      //sscanf(intSoc,"%d",soc);
+      
+      //itoa(soc,*charSoc,10);
+      //Serial.println("Avant TextArea soc=");
+      //Serial.print(*constCharSoc);
+      //const char* data = reinterpret_cast<const char*>(&val); //convert to a char pointer
+      // String Temp;
+      //sprintf(*charSoc, "%d", soc);
+
+      //snprintf ( *charSoc), 2, "%s", soc);
+      // snprintf(MinuteTimezoneH, 4, "%s", MinuteTimezone);       // résultat +01 Convertir la chaine +0100 en +01:00 pour concaténation
+
+      //itoa(soc, *charSoc, 10);
+      //*charSoc = itoa(soc, charSoc, 10);
+    
+     
+      int16_t int16Soc;
+      int16Soc = (int16_t)intSoc;
+      Serial.print("intSoc="); Serial.printf("%d\n", &intSoc);
+      Serial.print("int16Soc="); Serial.println(int16Soc);
+      //Serial.print("soc=");    Serial.printf("%s\n", soc);
+      lv_arc_set_value(ui_jaugeCharge, int16Soc);
+      Serial.println("Apres ARC"); 
+      lv_label_set_text(ui_ChargePCT, charSoc );
+      Serial.println("Apres charge PCT"); 
+      lv_textarea_set_text(ui_Log, *reponseMoto);
+      Serial.println("Apres LOG"); 
+    }
+
+  } else 
+      { Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(codeReponseHTTP).c_str()); 
+        requeteOK = false;
+      }       
+  https.end();
+  // client.stop();
   return requeteOK;
 }
 

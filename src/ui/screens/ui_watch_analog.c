@@ -58,6 +58,34 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_text_opa(ui_dots, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_dots, &ui_font_H1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    ui_jaugeCharge = lv_arc_create(ui_watch_analog);
+    lv_obj_set_width(ui_jaugeCharge, 82);
+    lv_obj_set_height(ui_jaugeCharge, 88);
+    lv_obj_set_x(ui_jaugeCharge, -190);
+    lv_obj_set_y(ui_jaugeCharge, -76);
+    lv_obj_set_align(ui_jaugeCharge, LV_ALIGN_CENTER);
+    lv_obj_clear_flag(ui_jaugeCharge, LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE |
+                      LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN);     /// Flags
+    lv_obj_set_scrollbar_mode(ui_jaugeCharge, LV_SCROLLBAR_MODE_OFF);
+    lv_arc_set_value(ui_jaugeCharge, 80);
+    lv_obj_set_style_arc_color(ui_jaugeCharge, lv_color_hex(0x2E2E31), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_opa(ui_jaugeCharge, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui_jaugeCharge, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_rounded(ui_jaugeCharge, true, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_arc_color(ui_jaugeCharge, lv_color_hex(0x55D914), LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_opa(ui_jaugeCharge, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui_jaugeCharge, 22, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_rounded(ui_jaugeCharge, true, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    ui_ChargePCT = lv_label_create(ui_jaugeCharge);
+    lv_obj_set_width(ui_ChargePCT, LV_SIZE_CONTENT);   /// 1
+    lv_obj_set_height(ui_ChargePCT, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_ChargePCT, 1);
+    lv_obj_set_y(ui_ChargePCT, -5);
+    lv_obj_set_align(ui_ChargePCT, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_ChargePCT, "50%");
+
     ui_Panel1 = lv_obj_create(ui_watch_analog);
     lv_obj_set_width(ui_Panel1, 107);
     lv_obj_set_height(ui_Panel1, 52);
@@ -99,8 +127,8 @@ void ui_watch_analog_screen_init(void)
     ui_date_group2 = lv_obj_create(ui_watch_analog);
     lv_obj_set_width(ui_date_group2, 121);
     lv_obj_set_height(ui_date_group2, 90);
-    lv_obj_set_x(ui_date_group2, 174);
-    lv_obj_set_y(ui_date_group2, 10);
+    lv_obj_set_x(ui_date_group2, 179);
+    lv_obj_set_y(ui_date_group2, 11);
     lv_obj_set_align(ui_date_group2, LV_ALIGN_TOP_MID);
     lv_obj_set_flex_flow(ui_date_group2, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_date_group2, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -271,6 +299,7 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_bg_opa(ui_dot17, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_add_event_cb(ui_bg_3, ui_event_bg_3, LV_EVENT_ALL, NULL);
+    lv_obj_add_event_cb(ui_jaugeCharge, ui_event_jaugeCharge, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BPTempo1, ui_event_BPTempo1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BPTempo2, ui_event_BPTempo2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_day2, ui_event_day2, LV_EVENT_ALL, NULL);

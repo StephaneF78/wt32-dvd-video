@@ -43,8 +43,9 @@
 #include "ui/ui.h"
 #endif
 
-#include "back/var.h"
+
 #include <WIFI.h>
+#include <WiFiClientSecure.h>
 #include <FS.h>
 #include <SPIFFS.h>               // SPI Flash Syetem Library 
 #include <WiFiManager.h>
@@ -53,6 +54,7 @@
 #include "time.h"                 // ajouté pour Source : https://randomnerdtutorials.com/esp32-date-time-ntp-client-server-arduino/
 #include <ArduinoJson.h>          // Ajouté pour API EDF 
 #include <HTTPClient.h>           // Ajouté pour Weather, utile pour les résultats API
+#include "back/var.h"
 #include "back/initWIFI.h"
 #include "back/horloge.h"           // structure pour l'horloge Accès au serveur de temps et affichage
 #include "back/accesRTE.h"           // Fonctions d'accès aux données RTE
@@ -332,7 +334,10 @@ void logCallback(Level level, unsigned long time, String message)
 void setup()
 {
   Serial.begin(115200);
-  //while(!Serial);
+  Serial.setDebugOutput(true);
+  Serial.println();
+  // while(!Serial); // Reste en attente d'une connexion
+  Serial.print("Serial OK ");
   bool error;
   Timber.setLogCallback(logCallback);
 
@@ -397,7 +402,7 @@ void setup()
   //setupMontreRonde();
   setSynchroDate();
   // getRTEData();
-  error = getMOTOData();    
+  getMOTOData();    
 
 }
 
@@ -420,10 +425,10 @@ void loop()
      }
 
   mototimerCurrent= lgfx::millis();
-  if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 * 15) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+  if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 ) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
       mototimerPrevious = mototimerCurrent;
-      bool error;
-      error = getMOTOData();
+      //bool error;
+      getMOTOData();
     }
 
   RTEtimerCurrent= lgfx::millis();
@@ -435,8 +440,10 @@ void loop()
       //setSynchroDate();
       // brightness = 55;
       // tft.setBrightness(brightness);
-    
+    //Serial.println("Mise à jour heure ");
     count=setSynchroHour(); // Resynchro avec l'heure NTP
+    // surveiller le Heap
+    Serial.printf("\nStack:%d,Heap:%lu\n", uxTaskGetStackHighWaterMark(NULL), (unsigned long)ESP.getFreeHeap());
     
     }
   delay(5);
