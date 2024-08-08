@@ -59,7 +59,7 @@ void ui_Conso_EDF_screen_init(void)
     lv_obj_set_style_blend_mode(ui_button_down, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_opa(ui_button_down, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
-
+    lv_img_set_src(ui_comp_get_child(ui_button_down, UI_COMP_BUTTONDOWN_BUTTON_DOWN_ICON), &ui_img_house_png);
 
     lv_obj_add_event_cb(ui_Edf, ui_event_Edf, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_button_down, ui_event_button_down_buttondown, LV_EVENT_ALL, NULL);

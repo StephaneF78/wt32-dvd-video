@@ -425,7 +425,7 @@ void loop()
      }
 
   mototimerCurrent= lgfx::millis();
-  if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 ) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+  if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 * 10) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
       mototimerPrevious = mototimerCurrent;
       //bool error;
       getMOTOData();

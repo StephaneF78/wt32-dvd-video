@@ -33,6 +33,7 @@ lv_obj_t * ui_dots;
 void ui_event_jaugeCharge(lv_event_t * e);
 lv_obj_t * ui_jaugeCharge;
 lv_obj_t * ui_ChargePCT;
+lv_obj_t * ui_ChargePCT1;
 lv_obj_t * ui_Panel1;
 void ui_event_BPTempo1(lv_event_t * e);
 lv_obj_t * ui_BPTempo1;
@@ -128,9 +129,29 @@ void ui_LogErreurs_screen_init(void);
 void ui_event_LogErreurs(lv_event_t * e);
 lv_obj_t * ui_LogErreurs;
 lv_obj_t * ui_bg_5;
-lv_obj_t * ui_Log;
 void ui_event_button_down2_buttondown(lv_event_t * e);
 lv_obj_t * ui_button_down2;
+lv_obj_t * ui_Log;
+
+
+// SCREEN: ui_Moto
+void ui_Moto_screen_init(void);
+void ui_event_Moto(lv_event_t * e);
+lv_obj_t * ui_Moto;
+lv_obj_t * ui_bg_6;
+lv_obj_t * ui_BgZero;
+lv_obj_t * ui_priseCharge;
+lv_obj_t * ui_flashAlim;
+void ui_event_button_down5_buttondown(lv_event_t * e);
+lv_obj_t * ui_button_down5;
+lv_obj_t * ui_labelCharge;
+void ui_event_jaugeCharge1(lv_event_t * e);
+lv_obj_t * ui_jaugeCharge1;
+lv_obj_t * ui_ChargePCT2;
+lv_obj_t * ui_ChargePCT3;
+lv_obj_t * ui_enCharge;
+lv_obj_t * ui_analyseMoto;
+lv_obj_t * ui_labelAutoRest;
 void ui_event____initial_actions0(lv_event_t * e);
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_bg[3] = {&ui_img_bg1_png, &ui_img_bg2_png, &ui_img_bg3_png};
@@ -141,11 +162,12 @@ const lv_img_dsc_t * ui_imgset_btn_bg_[3] = {&ui_img_btn_bg_1_png, &ui_img_btn_b
 const lv_img_dsc_t * ui_imgset_fondmulticolor[1] = {&ui_img_fondmulticolor1_png};
 const lv_img_dsc_t * ui_imgset_heart[1] = {&ui_img_heart2_png};
 const lv_img_dsc_t * ui_imgset_rollexsec[1] = {&ui_img_rollexsec1_png};
-const lv_img_dsc_t * ui_imgset_s[7] = {&ui_img_s1_png, &ui_img_s2_png, &ui_img_s3_png, &ui_img_s4_png, &ui_img_s5_png, &ui_img_s6_png, &ui_img_s7_png};
+const lv_img_dsc_t * ui_imgset_s[4] = {&ui_img_s1_png, &ui_img_s2_png, &ui_img_s4_png, &ui_img_s5_png};
 const lv_img_dsc_t * ui_imgset_wave[2] = {&ui_img_wave1_png, &ui_img_wave2_png};
 const lv_img_dsc_t * ui_imgset_2017742575[1] = {&ui_img_1027436578};
 const lv_img_dsc_t * ui_imgset_1679588828[1] = {&ui_img_299354449};
 const lv_img_dsc_t * ui_imgset_1680704923[1] = {&ui_img_1381083628};
+const lv_img_dsc_t * ui_imgset_zerotrans[1] = {&ui_img_zerotrans1_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16
@@ -502,7 +524,7 @@ void ui_event_jaugeCharge(lv_event_t * e)
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_Conso_EDF, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Conso_EDF_screen_init);
+        _ui_screen_change(&ui_Moto, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Moto_screen_init);
     }
 }
 void ui_event_BPTempo1(lv_event_t * e)
@@ -658,18 +680,56 @@ void ui_event_button_down2_buttondown(lv_event_t * e)
         _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
     }
 }
+void ui_event_Moto(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_TOP) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_weather_2, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_2_screen_init);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_BOTTOM) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_weather_1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_1_screen_init);
+    }
+}
+void ui_event_button_down5_buttondown(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+}
+void ui_event_jaugeCharge1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_Conso_EDF, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Conso_EDF_screen_init);
+    }
+}
 void ui_event____initial_actions0(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_SCREEN_LOAD_START) {
-        dots_Animation(ui_dots, 0);
+        dots_Animation(ui_dots, 1);
         sec_Animation(ui_clouds, 0);
         min_Animation(ui_min, 0);
         hour_Animation(ui_hour, 0);
         min_Animation(ui_min, 0);
-        dots_Animation(ui_BPTempo1, 0);
+        dots_Animation(ui_BPTempo1, 1);
         sec_Animation(ui_sec, 0);
+        dots_Animation(ui_flashAlim, 1);
     }
 }
 
@@ -687,6 +747,7 @@ void ui_init(void)
     ui_weather_1_screen_init();
     ui_weather_2_screen_init();
     ui_LogErreurs_screen_init();
+    ui_Moto_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_obj_add_event_cb(ui____initial_actions0, ui_event____initial_actions0, LV_EVENT_ALL, NULL);
 

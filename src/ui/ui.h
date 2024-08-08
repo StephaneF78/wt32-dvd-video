@@ -41,6 +41,7 @@ extern lv_obj_t * ui_dots;
 void ui_event_jaugeCharge(lv_event_t * e);
 extern lv_obj_t * ui_jaugeCharge;
 extern lv_obj_t * ui_ChargePCT;
+extern lv_obj_t * ui_ChargePCT1;
 extern lv_obj_t * ui_Panel1;
 void ui_event_BPTempo1(lv_event_t * e);
 extern lv_obj_t * ui_BPTempo1;
@@ -128,9 +129,27 @@ void ui_LogErreurs_screen_init(void);
 void ui_event_LogErreurs(lv_event_t * e);
 extern lv_obj_t * ui_LogErreurs;
 extern lv_obj_t * ui_bg_5;
-extern lv_obj_t * ui_Log;
 void ui_event_button_down2_buttondown(lv_event_t * e);
 extern lv_obj_t * ui_button_down2;
+extern lv_obj_t * ui_Log;
+// SCREEN: ui_Moto
+void ui_Moto_screen_init(void);
+void ui_event_Moto(lv_event_t * e);
+extern lv_obj_t * ui_Moto;
+extern lv_obj_t * ui_bg_6;
+extern lv_obj_t * ui_BgZero;
+extern lv_obj_t * ui_priseCharge;
+extern lv_obj_t * ui_flashAlim;
+void ui_event_button_down5_buttondown(lv_event_t * e);
+extern lv_obj_t * ui_button_down5;
+extern lv_obj_t * ui_labelCharge;
+void ui_event_jaugeCharge1(lv_event_t * e);
+extern lv_obj_t * ui_jaugeCharge1;
+extern lv_obj_t * ui_ChargePCT2;
+extern lv_obj_t * ui_ChargePCT3;
+extern lv_obj_t * ui_enCharge;
+extern lv_obj_t * ui_analyseMoto;
+extern lv_obj_t * ui_labelAutoRest;
 void ui_event____initial_actions0(lv_event_t * e);
 extern lv_obj_t * ui____initial_actions0;
 
@@ -146,14 +165,17 @@ LV_IMG_DECLARE(ui_img_btn_bg_3_png);    // assets/btn_bg_3.png
 LV_IMG_DECLARE(ui_img_275344589);    // assets/RollexHeure-removebg-preview.png
 LV_IMG_DECLARE(ui_img_710189694);    // assets/RollexMin-removebg-preview.png
 LV_IMG_DECLARE(ui_img_610538489);    // assets/RollexSec-removebg-preview.png
+LV_IMG_DECLARE(ui_img_house_png);    // assets/house.png
 LV_IMG_DECLARE(ui_img_rain_png);    // assets/rain.png
 LV_IMG_DECLARE(ui_img_wind_png);    // assets/wind.png
 LV_IMG_DECLARE(ui_img_sun_png);    // assets/sun.png
 LV_IMG_DECLARE(ui_img_clouds_png);    // assets/clouds.png
-LV_IMG_DECLARE(ui_img_house_png);    // assets/house.png
 LV_IMG_DECLARE(ui_img_weather_sun_png);    // assets/weather_sun.png
 LV_IMG_DECLARE(ui_img_weather_cloud_png);    // assets/weather_cloud.png
 LV_IMG_DECLARE(ui_img_weather_cloud_fog_png);    // assets/weather_cloud_fog.png
+LV_IMG_DECLARE(ui_img_zerotrans1_png);    // assets/ZeroTrans1.png
+LV_IMG_DECLARE(ui_img_prise100trans_png);    // assets/prise100trans.png
+LV_IMG_DECLARE(ui_img_flash_png);    // assets/flash.png
 LV_IMG_DECLARE(ui_img_bg1_png);    // assets/bg1.png
 LV_IMG_DECLARE(ui_img_bg2_png);    // assets/bg2.png
 LV_IMG_DECLARE(ui_img_bg3_png);    // assets/bg3.png
@@ -166,11 +188,8 @@ LV_IMG_DECLARE(ui_img_heart2_png);    // assets/heart2.png
 LV_IMG_DECLARE(ui_img_rollexsec1_png);    // assets/RollexSec1.png
 LV_IMG_DECLARE(ui_img_s1_png);    // assets/s1.png
 LV_IMG_DECLARE(ui_img_s2_png);    // assets/s2.png
-LV_IMG_DECLARE(ui_img_s3_png);    // assets/s3.png
 LV_IMG_DECLARE(ui_img_s4_png);    // assets/s4.png
 LV_IMG_DECLARE(ui_img_s5_png);    // assets/s5.png
-LV_IMG_DECLARE(ui_img_s6_png);    // assets/s6.png
-LV_IMG_DECLARE(ui_img_s7_png);    // assets/s7.png
 LV_IMG_DECLARE(ui_img_wave1_png);    // assets/wave1.png
 LV_IMG_DECLARE(ui_img_wave2_png);    // assets/wave2.png
 LV_IMG_DECLARE(ui_img_1027436578);    // assets/WT32-SC01-bg1.png

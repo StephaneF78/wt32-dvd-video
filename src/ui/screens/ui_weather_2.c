@@ -243,8 +243,8 @@ void ui_weather_2_screen_init(void)
     lv_label_set_text(ui_comp_get_child(ui_forecast_group4, UI_COMP_FORECASTGROUP_DEGREE_GROUP_NIGHTTIME), "20°");
 
     ui_button_down4 = ui_buttondown_create(ui_weather_2);
-    lv_obj_set_x(ui_button_down4, 146);
-    lv_obj_set_y(ui_button_down4, 102);
+    lv_obj_set_x(ui_button_down4, 197);
+    lv_obj_set_y(ui_button_down4, 119);
 
     lv_img_set_src(ui_comp_get_child(ui_button_down4, UI_COMP_BUTTONDOWN_BUTTON_DOWN_ICON), &ui_img_house_png);
 

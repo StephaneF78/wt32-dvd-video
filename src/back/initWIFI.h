@@ -5,6 +5,9 @@
 // Déclaration des constantes
 const char *ssid = "Bbox-3FA5475C";
 const char *password = "A6D169EE453122AA5D7A4E7D523CEF";
+
+const char *ssid1 = "Freebox-146FB3";
+const char *password1 = "protis6#-fodito-quomque-ericum";
  
 // Pour le WIFI Manager
 bool shouldSaveConfig = false;    // Flag for saving data wifimanager
@@ -15,7 +18,7 @@ WiFiManager wm;                         // Define WiFiManager Object
 
 void initWIFI(){
  // **************************** Debut Setup WIFI **********************************************
-  WiFi.begin(ssid, password);
+  WiFi.begin(ssid1, password1);
   // lcd.setCursor(15,5);
   // à mapper lvgl lcd.printf("Wifi");
   while (WiFi.status() != WL_CONNECTED) {

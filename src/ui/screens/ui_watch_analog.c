@@ -50,8 +50,8 @@ void ui_watch_analog_screen_init(void)
     ui_dots = lv_label_create(ui_watch_analog);
     lv_obj_set_width(ui_dots, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_dots, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_dots, 2);
-    lv_obj_set_y(ui_dots, 72);
+    lv_obj_set_x(ui_dots, -3);
+    lv_obj_set_y(ui_dots, 95);
     lv_obj_set_align(ui_dots, LV_ALIGN_TOP_MID);
     lv_label_set_text(ui_dots, ":");
     lv_obj_set_style_text_color(ui_dots, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -59,32 +59,52 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_text_font(ui_dots, &ui_font_H1, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_jaugeCharge = lv_arc_create(ui_watch_analog);
-    lv_obj_set_width(ui_jaugeCharge, 82);
+    lv_obj_set_width(ui_jaugeCharge, 80);
     lv_obj_set_height(ui_jaugeCharge, 88);
-    lv_obj_set_x(ui_jaugeCharge, -190);
-    lv_obj_set_y(ui_jaugeCharge, -76);
+    lv_obj_set_x(ui_jaugeCharge, -193);
+    lv_obj_set_y(ui_jaugeCharge, -60);
     lv_obj_set_align(ui_jaugeCharge, LV_ALIGN_CENTER);
-    lv_obj_clear_flag(ui_jaugeCharge, LV_OBJ_FLAG_GESTURE_BUBBLE | LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE |
-                      LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM | LV_OBJ_FLAG_SCROLL_CHAIN);     /// Flags
+    lv_obj_clear_flag(ui_jaugeCharge, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE |
+                      LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM |
+                      LV_OBJ_FLAG_SCROLL_CHAIN);     /// Flags
     lv_obj_set_scrollbar_mode(ui_jaugeCharge, LV_SCROLLBAR_MODE_OFF);
-    lv_arc_set_value(ui_jaugeCharge, 80);
-    lv_obj_set_style_arc_color(ui_jaugeCharge, lv_color_hex(0x2E2E31), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_arc_set_value(ui_jaugeCharge, 30);
+    lv_obj_set_style_arc_color(ui_jaugeCharge, lv_color_hex(0xDCFAD2), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui_jaugeCharge, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_width(ui_jaugeCharge, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_rounded(ui_jaugeCharge, true, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     lv_obj_set_style_arc_color(ui_jaugeCharge, lv_color_hex(0x55D914), LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui_jaugeCharge, 255, LV_PART_INDICATOR | LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_width(ui_jaugeCharge, 22, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui_jaugeCharge, 20, LV_PART_INDICATOR | LV_STATE_DEFAULT);
     lv_obj_set_style_arc_rounded(ui_jaugeCharge, true, LV_PART_INDICATOR | LV_STATE_DEFAULT);
+
+    lv_obj_set_style_opa(ui_jaugeCharge, 0, LV_PART_KNOB | LV_STATE_DEFAULT);
 
     ui_ChargePCT = lv_label_create(ui_jaugeCharge);
     lv_obj_set_width(ui_ChargePCT, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_ChargePCT, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_ChargePCT, 1);
+    lv_obj_set_x(ui_ChargePCT, 2);
     lv_obj_set_y(ui_ChargePCT, -5);
     lv_obj_set_align(ui_ChargePCT, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_ChargePCT, "50%");
+    lv_label_set_text(ui_ChargePCT, "50");
+    lv_obj_set_style_text_color(ui_ChargePCT, lv_color_hex(0x52DA10), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_ChargePCT, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_ChargePCT, &ui_font_Subtitle, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+    ui_ChargePCT1 = lv_label_create(ui_jaugeCharge);
+    lv_obj_set_width(ui_ChargePCT1, LV_SIZE_CONTENT);   /// 8
+    lv_obj_set_height(ui_ChargePCT1, LV_SIZE_CONTENT);    /// 8
+    lv_obj_set_x(ui_ChargePCT1, 1);
+    lv_obj_set_y(ui_ChargePCT1, 17);
+    lv_obj_set_align(ui_ChargePCT1, LV_ALIGN_CENTER);
+    lv_label_set_text(ui_ChargePCT1, "%");
+    lv_obj_clear_flag(ui_ChargePCT1, LV_OBJ_FLAG_PRESS_LOCK | LV_OBJ_FLAG_CLICK_FOCUSABLE | LV_OBJ_FLAG_GESTURE_BUBBLE |
+                      LV_OBJ_FLAG_SNAPPABLE | LV_OBJ_FLAG_SCROLLABLE | LV_OBJ_FLAG_SCROLL_ELASTIC | LV_OBJ_FLAG_SCROLL_MOMENTUM |
+                      LV_OBJ_FLAG_SCROLL_CHAIN);     /// Flags
+    lv_obj_set_style_text_color(ui_ChargePCT1, lv_color_hex(0x52DA10), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_ChargePCT1, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_ChargePCT1, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_Panel1 = lv_obj_create(ui_watch_analog);
     lv_obj_set_width(ui_Panel1, 107);

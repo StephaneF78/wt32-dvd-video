@@ -177,8 +177,8 @@ void ui_weather_1_screen_init(void)
     lv_obj_clear_flag(ui_clouds, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_button_down3 = ui_buttondown_create(ui_weather_1);
-    lv_obj_set_x(ui_button_down3, 146);
-    lv_obj_set_y(ui_button_down3, 102);
+    lv_obj_set_x(ui_button_down3, 198);
+    lv_obj_set_y(ui_button_down3, 119);
 
     lv_img_set_src(ui_comp_get_child(ui_button_down3, UI_COMP_BUTTONDOWN_BUTTON_DOWN_ICON), &ui_img_house_png);
 

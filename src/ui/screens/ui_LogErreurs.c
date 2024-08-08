@@ -20,11 +20,17 @@ void ui_LogErreurs_screen_init(void)
     lv_obj_add_flag(ui_bg_5, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_bg_5, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
+    ui_button_down2 = ui_buttondown_create(ui_LogErreurs);
+    lv_obj_set_x(ui_button_down2, 199);
+    lv_obj_set_y(ui_button_down2, 121);
+
+    lv_img_set_src(ui_comp_get_child(ui_button_down2, UI_COMP_BUTTONDOWN_BUTTON_DOWN_ICON), &ui_img_house_png);
+
     ui_Log = lv_textarea_create(ui_LogErreurs);
-    lv_obj_set_width(ui_Log, 466);
-    lv_obj_set_height(ui_Log, 306);
+    lv_obj_set_width(ui_Log, 476);
+    lv_obj_set_height(ui_Log, 312);
     lv_obj_set_x(ui_Log, 1);
-    lv_obj_set_y(ui_Log, 9);
+    lv_obj_set_y(ui_Log, -1);
     lv_obj_set_align(ui_Log, LV_ALIGN_CENTER);
     lv_textarea_set_text(ui_Log, "Blabla bla");
     lv_textarea_set_placeholder_text(ui_Log, "Placeholder...");
@@ -32,17 +38,9 @@ void ui_LogErreurs_screen_init(void)
     lv_obj_set_style_text_opa(ui_Log, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_font(ui_Log, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_blend_mode(ui_Log, LV_BLEND_MODE_NORMAL, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_opa(ui_Log, 230, LV_PART_MAIN | LV_STATE_DEFAULT);
-
-    lv_obj_set_style_blend_mode(ui_Log, LV_BLEND_MODE_SUBTRACTIVE, LV_PART_SELECTED | LV_STATE_DEFAULT);
-    lv_obj_set_style_opa(ui_Log, 250, LV_PART_SELECTED | LV_STATE_DEFAULT);
+    lv_obj_set_style_opa(ui_Log, 200, LV_PART_MAIN | LV_STATE_DEFAULT);
 
 
-    ui_button_down2 = ui_buttondown_create(ui_LogErreurs);
-    lv_obj_set_x(ui_button_down2, 199);
-    lv_obj_set_y(ui_button_down2, 121);
-
-    lv_img_set_src(ui_comp_get_child(ui_button_down2, UI_COMP_BUTTONDOWN_BUTTON_DOWN_ICON), &ui_img_house_png);
 
     lv_obj_add_event_cb(ui_button_down2, ui_event_button_down2_buttondown, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_LogErreurs, ui_event_LogErreurs, LV_EVENT_ALL, NULL);
