@@ -49,7 +49,7 @@ const char*  headerHost =        "digital.iservices.rte-france.com";
 
 // Décodage des erreurs
 // obtention d'une transcription des codes d'erreurs spécifique à l'API RTE ou message général
-String errorDescription(int code, HTTPClient& http) {
+String errorDescription(int code, HTTPClient& https) {
   switch (code) {
     case 401: return "l'authentification a échouée";
     case 403: return "l’appelant n’est pas habilité à appeler la ressource";
@@ -59,7 +59,7 @@ String errorDescription(int code, HTTPClient& http) {
     case 509: return "L‘ensemble des requêtes des clients atteint la limite maximale";
     default: break;
   }
-  return http.errorToString(code);
+  return https.errorToString(code);
 }
 
 
@@ -67,15 +67,39 @@ String errorDescription(int code, HTTPClient& http) {
 void pastille(String couleurJour, String couleurDemain){ //BLUE, WHITE, RED
  
   // Pastille de gauche charger les paramètres sur les deux objets 'changement d'image)
-  // if (couleurJour.compareTo("BLUE")==0)  {lcd.fillCircle(x, y, r, BLUE);}  //else {gfx->fillCircle(x, y, r, GREEN);}
-  // if (couleurJour.compareTo("WHITE")==0) {lcd.fillCircle(x, y, r, WHITE);}  //else {gfx->fillCircle(x, y, r, GREEN);}
-  // if (couleurJour.compareTo("RED")==0)   {lcd.fillCircle(x, y, r, RED);}    //else {gfx->fillCircle(x, y, r, GREEN);}
+  // Par défaut les pastilles seront rouges
+  lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
+  lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
+
+  if (couleurJour.compareTo("BLUE")==0)  {
+    //lcd.fillCircle(x, y, r, BLUE);
+    lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptempobleu_50_png, NULL);
+
+    }  //else {gfx->fillCircle(x, y, r, GREEN);}
+  if (couleurJour.compareTo("WHITE")==0) {
+    //lcd.fillCircle(x, y, r, WHITE);
+    lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptempoblanc_50_png, NULL);
+
+    }  //else {gfx->fillCircle(x, y, r, GREEN);}
+  if (couleurJour.compareTo("RED")==0)   {
+    //lcd.fillCircle(x, y, r, RED);
+    lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
+    }    //else {gfx->fillCircle(x, y, r, GREEN);}
   // Pastille de droite
-  // if (couleurDemain.compareTo("BLUE")==0) {lcd.fillCircle(x+e, y, r, BLUE);}   //else {gfx->fillCircle(x, y, r, GREEN);}
-  // if (couleurDemain.compareTo("WHITE")==0){lcd.fillCircle(x+e, y, r, WHITE);} //else {gfx->fillCircle(x, y, r, GREEN);}
-  // if (couleurDemain.compareTo("RED")==0)  {lcd.fillCircle(x+e, y, r, RED);}    // else {gfx->fillCircle(x, y, r, GREEN);}
-  //lcd.setTextSize(2);lcd.setTextColor(GREY, TFT_TRANSPARENT);lcd.setCursor(x-5, y-5);lcd.print("J");
-  //lcd.setTextSize(2);lcd.setTextColor(GREY, TFT_TRANSPARENT);lcd.setCursor(x+e-15, y-5);lcd.print("J+1");
+  if (couleurDemain.compareTo("BLUE")==0) {
+    //lcd.fillCircle(x+e, y, r, BLUE);
+    lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptempobleu_50_png, NULL);
+
+    }   //else {gfx->fillCircle(x, y, r, GREEN);}
+  if (couleurDemain.compareTo("WHITE")==0) {
+    // lcd.fillCircle(x+e, y, r, WHITE);
+    lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptempoblanc_50_png, NULL);
+
+    } //else {gfx->fillCircle(x, y, r, GREEN);}
+  if (couleurDemain.compareTo("RED")==0)  {
+    // lcd.fillCircle(x+e, y, r, RED);
+    lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
+    }    // else {gfx->fillCircle(x, y, r, GREEN);}
 }
 
 
@@ -113,25 +137,25 @@ bool getRTEData() {
 //lcd.setTextSize(1);
 
   if (WiFi.status() != WL_CONNECTED) {
-    Serial.print("WiFI non disponible. Requête impossible");
-    delay(3000);
+    Serial.print("*** RTE *** WiFI non disponible. Requête impossible");
+    delay(1000);
     // ESP.restart(); // si le WIFI est indispo on reboot pour réétablir la connexion
     return false;
   }
-  WiFiClientSecure client; // ouvre un client sécurisé
-  HTTPClient http;
-  client.setCACert(root_ca);    // positionne le certificat racine
-  http.begin(client, oauthURI); // prépare l'appel à l'url de prod
+  // SBI WiFiClientSecure client; // ouvre un client sécurisé
+  // HTTPClient http;
+  client->setCACert(root_ca);    // positionne le certificat racine
+  https.begin(*client, oauthURI); // prépare l'appel à l'url de prod
 
   // Specify content-type header
-  http.addHeader("Content-Type", "application/x-www-form-urlencoded");
-  http.addHeader("Authorization", idRTE);
+  https.addHeader("Content-Type", "application/x-www-form-urlencoded");
+  https.addHeader("Authorization", idRTE);
 
   // Send HTTP POST request
-  codeReponseHTTP = http.POST(nullptr, 0);
+  codeReponseHTTP = https.POST(nullptr, 0);
 
   if (codeReponseHTTP == HTTP_CODE_OK) {
-    oauthPayload = http.getString();
+    oauthPayload = https.getString();
     StaticJsonDocument<1024> doc; // SBI 1024 à la place de 192
     DeserializationError error = deserializeJson(doc, oauthPayload);
     if (error) {
@@ -148,14 +172,14 @@ bool getRTEData() {
   } else {
 //    Serial.print("Authentification RTE : erreur HTTP POST: ");
     // SBI 30/06/2024 à mapper LVGL lcd.printf("erreur authent RTE, le system va rebooter : %s",errorDescription(codeReponseHTTP, http));
-    delay(120000);
-    // ESP.restart(); // si erreur on reboot
-//    Serial.printf("s",errorDescription(codeReponseHTTP, http));
-    requeteOK = false;
-  }
+      Serial.printf("*** RTE *** %s",errorDescription(codeReponseHTTP, https));
+      delay(12000);
+      // ESP.restart(); // si erreur on reboot
+      requeteOK = false;
+    }
 
   // on libère les resources
-  http.end();
+  https.end();
   if (!requeteOK) return false;
 
   // on a récupéré l'access_token, on peut l'utiliser pour faire notre requête GET sur l'API
@@ -224,59 +248,62 @@ bool getRTEData() {
   // lcd.setTextSize(1);
   // lcd.setCursor(4,230);
   // lcd.print(tempoURIPlusParam);
-  Serial.print(tempoURIPlusParam);
+  Serial.println("*** RTE *** tempoURIPlusParam= ");
+  Serial.println(tempoURIPlusParam);
   //Nov2023
 
-  http.begin(client, tempoURIPlusParam); // si on veut tester le code sans être gêné par la limite d'un appel toutes les 15 minutes, on utilise la sandbox
+  https.begin(*client, tempoURIPlusParam); // si on veut tester le code sans être gêné par la limite d'un appel toutes les 15 minutes, on utilise la sandbox
 
-  http.addHeader("Authorization", temposAutorization.c_str()); // On remplit le header iso postman autorization dans le header
-  http.addHeader("host", headerHost);
+  https.addHeader("Authorization", temposAutorization.c_str()); // On remplit le header iso postman autorization dans le header
+  https.addHeader("host", headerHost);
 
-  codeReponseHTTP = http.GET();// On envoie la requête HTTP GET
+  codeReponseHTTP = https.GET();// On envoie la requête HTTP GET
   if (codeReponseHTTP == HTTP_CODE_OK) {
     // version qui imprime tout le JSON
-    temposPayload = http.getString();
+    temposPayload = https.getString();
     //gfx->print("Apres recup http temposPayload=");
-    //gfx->println(temposPayload);
+    Serial.print("*** RTE *** temposPayload=");
+    Serial.println(temposPayload);
     StaticJsonDocument<1024> doc;
     DeserializationError error = deserializeJson(doc, temposPayload); // On désérialise sans filtre
+    Serial.print("*** RTE *** Après désérialisation temposPayload=");
+    Serial.println(temposPayload);
     //lcd.setTextSize(1);
     //lcd.setCursor(20, 20);
     //lcd.print(temposPayload);
+    if (error) {
+        Serial.print("*** RTE *** deserializeJson() failed temposPayload= : ");
+        Serial.println(error.c_str());
+        lv_textarea_set_text(ui_Log, "*** MOTO *** Erreur de désérialisation");     //lv_textarea_set_text(ui_Log, error.c_str());
+        return false;
+      }
 
-    if (error) { // si erreur de deserialisation
-      requeteOK = false;
-      // SBI 30/06/2024 à mapper LVGL lcd.print("Erreur deseri2");
-      delay(120000);
-      // ESP.restart(); // si erreur on reboot
-
-
-    } else {
+    else {
         JsonObject tempo_like_calendars = doc["tempo_like_calendars"]; // Niveau 1 :On prend le premier niveau du json (il y a deux dates fournies en entrée)
         const char* start_date = tempo_like_calendars["start_date"]; // gfx->println("start_date = "); gfx->print(start_date);   // Niveau 1 / Date
         
         // On prend le tableau des "values" sous calendars
         JsonObject values_pos0 = tempo_like_calendars["values"][0];
-
         String start_date_pos0 = values_pos0["start_date"];
         //const char* end_date_pos0     = values_pos0["end_date"];
         String couleur_pos0 = values_pos0["value"]; // "BLUE", "WHITE", "RED"
+        Serial.print("*** RTE *** value_pos0=");
+        Serial.println(couleur_pos0);
+  
         //const char* updated_date_pos0 = values_pos0["updated_date"];
         // On prends les deuxièmes valeurs en pos 1
         JsonObject values_pos1 = tempo_like_calendars["values"][1]; // On prend le tableau de "values" dans calendars
         String start_date_pos1 = values_pos1["start_date"];
         //const char* end_date_pos1     = values_pos1["end_date"];
         String couleur_pos1 = values_pos1["value"]; // "BLUE", "WHITE", "RED"
+        Serial.print("*** RTE *** value_pos1=");
+        Serial.println(couleur_pos1);
+
         // On envoie sur le screen
-        // gfx->println(" updated_date_pos0 = "); gfx->print(start_date_pos0); gfx->print(" couleur0 : ");gfx->println(couleur_pos0);
-        // gfx->println(" updated_date_pos1 = "); gfx->print(start_date_pos1); gfx->print(" couleur1 : ");gfx->println(couleur_pos1);
-        /* lcd.setTextSize(1);
-        lcd.setCursor(5, 8);
-        lcd.print("j="); lcd.println(couleur_pos0);
-        lcd.print("j+1="); lcd.println(couleur_pos1);
-        */        
+        Serial.print("*** RTE ***  Avant miseAjourPastille");        
         miseAJourPastille(start_date_pos0, couleur_pos0, start_date_pos1, couleur_pos1);     
-        
+        Serial.print("*** RTE *** Avant JsonObject tempo_like_calendar");        
+
         for (JsonObject tempofor : doc["tempo_like_calendars"]["values"].as<JsonArray>()) { // On met ds le for les values (là il ne rentre pas !)
           //gfx->println("Dans le for json");
           const char* dateupdate = tempofor["updated_date"];
@@ -284,29 +311,21 @@ bool getRTEData() {
           //gfx->print(" ds for date="); gfx->print(dateupdate);
           //gfx->println(" ds for couleur="); gfx->print(couleur);
         }
+        Serial.println(" *** RTE ***Après JsonObject tempo_like_calendar");        
+
     }
   } else {
-//    Serial.printf("erreur HTTP GET: ");
-//    Serial.printf(" => %s", codeReponseHTTP);
-//    Serial.printf("%s", http.errorToString(codeReponseHTTP));
-      // SBI 30/06/2024 à mapper lvgl lcd.println("errReq RTE, reboot imminent : ");
-      // SBI 30/06/2024 à mapper lvgl lcd.println(http.errorToString(codeReponseHTTP));
-      // Nov 2023
-      Serial.printf("Erreur appel RTE=%s", http.errorToString(codeReponseHTTP));
-      delay(120000);
+      Serial.println(" *** RTE *** erreur HTTP GET: ");
+      Serial.printf(" => %s", codeReponseHTTP);
+      Serial.printf("%s", https.errorToString(codeReponseHTTP));
+      Serial.printf("Erreur appel RTE (ligne321)=%s", https.errorToString(codeReponseHTTP));
+      delay(1200);
       // ESP.restart(); // si erreur on reboot
-    requeteOK = false;
+      requeteOK = false;
   }
-  /*
-  lcd.setTextColor(RED, screenColor);
-  lcd.setCursor(300, 320);
-  lcd.setTextSize(1);
-  lcd.printf("Dernier appel RTE : ");
-  lcd.printf("%s",heureNTP);
-  */
 
-  http.end();
-  
+  https.end();
+  client->stop();
   // SBI 30/06/2024 à mapper lvgl lcd.printf("MAJ RTE :%s", heureCourante);
   return requeteOK;
 }

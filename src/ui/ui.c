@@ -168,6 +168,7 @@ const lv_img_dsc_t * ui_imgset_2017742575[1] = {&ui_img_1027436578};
 const lv_img_dsc_t * ui_imgset_1679588828[1] = {&ui_img_299354449};
 const lv_img_dsc_t * ui_imgset_1680704923[1] = {&ui_img_1381083628};
 const lv_img_dsc_t * ui_imgset_zerotrans[1] = {&ui_img_zerotrans1_png};
+const lv_img_dsc_t * ui_imgset_bptemporouge[1] = {&ui_img_bptemporouge50_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16

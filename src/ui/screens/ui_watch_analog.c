@@ -131,7 +131,7 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_opa(ui_BPTempo1, 160, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_BPTempo2 = lv_imgbtn_create(ui_Panel1);
-    lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_656426796, NULL);
+    lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
     lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_PRESSED, NULL, &ui_img_ampoulebleu_png, NULL);
     lv_obj_set_width(ui_BPTempo2, 45);
     lv_obj_set_height(ui_BPTempo2, 45);

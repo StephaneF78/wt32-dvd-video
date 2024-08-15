@@ -59,7 +59,7 @@
 #include "back/horloge.h"           // structure pour l'horloge Accès au serveur de temps et affichage
 #include "back/accesRTE.h"           // Fonctions d'accès aux données RTE
 #include "back/moto.h"
-
+#include "back/meteo.h"
 
 #ifdef PLUS
 #define SCR 30
@@ -347,6 +347,19 @@ void setup()
 
   lv_init();
 
+  // SBI Param backlight
+  /*
+  #define BACKLIGHT_CHANNEL 0
+  #define BACKLIGHT_FREQUENCY 12000
+  #define BACKLIGHT_RESOLUTION_BITS 8
+  #define TFT_LITE 33
+  pinMode(TFT_LITE, OUTPUT);
+  ledcSetup(BACKLIGHT_CHANNEL, BACKLIGHT_FREQUENCY, BACKLIGHT_RESOLUTION_BITS);
+  float percent = 0.75;
+  int dutyCycle = (int) round(255 * percent);
+  ledcWrite(BACKLIGHT_CHANNEL, dutyCycle);
+  */
+
   Timber.i("Width %d\tHeight %d", screenWidth, screenHeight);
 
   if (!disp_draw_buf)
@@ -401,8 +414,9 @@ void setup()
   printLocalTime(); // Récupère NTP et affiche l'heure sur l'écran
   //setupMontreRonde();
   setSynchroDate();
-  // getRTEData();
-  getMOTOData();    
+  getRTEData();
+  getMOTOData();
+  getMETEOData();    
 
 }
 
@@ -424,27 +438,36 @@ void loop()
      count -= oneday; 
      }
 
-  mototimerCurrent= lgfx::millis();
+  mototimerCurrent= lgfx::millis(); // ttes les 10'
   if ( (mototimerCurrent-mototimerPrevious) > 1000 * 60 * 10) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
       mototimerPrevious = mototimerCurrent;
-      //bool error;
+      Serial.println(&timeinfo, "GetMOTOData : %A, %B %d %Y %H:%M:%S");
       getMOTOData();
     }
 
+  meteotimerCurrent= lgfx::millis(); // ttes les 15'
+  if ( (meteotimerCurrent-meteotimerPrevious) > 1000 * 60 * 15) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+      meteotimerPrevious = meteotimerCurrent;
+      Serial.println(&timeinfo, "GetMETEOData : %A, %B %d %Y %H:%M:%S");
+      getMETEOData();
+    }
+
+uint32_t meteotimerCurrent=0; // Pour inclure un évènement dans la boucle timer 
+uint32_t meteotimerPrevious=0;
+
+  heuretimerCurrent= lgfx::millis();
+  if ( (heuretimerCurrent-heuretimerPrevious) > 1000) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+      heuretimerPrevious = heuretimerCurrent; 
+      count=setSynchroHour(); // Resynchro avec l'heure NTP
+      // surveiller le Heap
+      Serial.printf("\nStack:%d,Heap:%lu\n", uxTaskGetStackHighWaterMark(NULL), (unsigned long)ESP.getFreeHeap());
+    }
+
   RTEtimerCurrent= lgfx::millis();
-  if ( (RTEtimerCurrent-RTEtimerPrevious) > 1000) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
-      RTEtimerPrevious = RTEtimerCurrent;
-      // Appel de l'affichage toutes les 15'
-      // suspendu getRTEData(); // on met à jour les données RTE tt les 15'
-      //count=setSynchroHour();   // Resynchro count avec le temps actuel en ms
-      //setSynchroDate();
-      // brightness = 55;
-      // tft.setBrightness(brightness);
-    //Serial.println("Mise à jour heure ");
-    count=setSynchroHour(); // Resynchro avec l'heure NTP
-    // surveiller le Heap
-    Serial.printf("\nStack:%d,Heap:%lu\n", uxTaskGetStackHighWaterMark(NULL), (unsigned long)ESP.getFreeHeap());
-    
+  if ( (RTEtimerCurrent-RTEtimerPrevious) > 1000 * 60 * 15) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+      RTEtimerPrevious = RTEtimerCurrent; 
+      Serial.println(&timeinfo, "GetRTE : %A, %B %d %Y %H:%M:%S");
+      getRTEData(); // mise à jour
     }
   delay(5);
 }

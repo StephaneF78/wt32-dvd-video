@@ -28,7 +28,7 @@ void ui_weather_1_screen_init(void)
     lv_obj_set_x(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), -28);
     lv_obj_set_y(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), 0);
     lv_obj_set_align(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), LV_ALIGN_TOP_RIGHT);
-    lv_label_set_text(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), "New York");
+    lv_label_set_text(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), "Ville avant affectation");
     lv_obj_set_style_text_font(ui_comp_get_child(ui_city_gruop_1, UI_COMP_TITLEGROUP_TITLE), &ui_font_Subtitle,
                                LV_PART_MAIN | LV_STATE_DEFAULT);
 
@@ -42,7 +42,6 @@ void ui_weather_1_screen_init(void)
     lv_obj_set_x(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_TITLE), -28);
     lv_obj_set_y(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_TITLE), 0);
     lv_label_set_text(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_TITLE), "Partly Cloudy");
-
     lv_label_set_text(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_SUBTITLE), "Max: 18° Min: 12°");
 
     ui_label_degree = lv_label_create(ui_weather_1);

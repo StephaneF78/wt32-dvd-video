@@ -158,7 +158,7 @@ LV_IMG_DECLARE(ui_img_fondmulticolor1_png);    // assets/FondMulticolor1.png
 LV_IMG_DECLARE(ui_img_192753598);    // assets/RollexCadranPaint-RemoveBG.png
 LV_IMG_DECLARE(ui_img_bptempobleu_50_png);    // assets/BPTempoBleu_50.png
 LV_IMG_DECLARE(ui_img_ampoulebleu_png);    // assets/AmpouleBleu.png
-LV_IMG_DECLARE(ui_img_656426796);    // assets/BPTempoRouge50-removebg-preview.png
+LV_IMG_DECLARE(ui_img_bptemporouge50_png);    // assets/BPTempoRouge50.png
 LV_IMG_DECLARE(ui_img_weather_sun_cloud_png);    // assets/weather_sun_cloud.png
 LV_IMG_DECLARE(ui_img_weather_png);    // assets/weather.png
 LV_IMG_DECLARE(ui_img_btn_bg_3_png);    // assets/btn_bg_3.png

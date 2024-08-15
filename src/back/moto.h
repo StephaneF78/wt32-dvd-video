@@ -38,23 +38,7 @@ const char* root_ca_moto =\
                           "4f+T8Ycc2UJzcCdiWC4S3DTxB66s0PrWR89JvKoiJh4CIQDPOkIk9aCjtjRqlMpT\n" \
                           "vf6HHLpmJXSamSJ1tUcigOR4tg==\n" \
                           "-----END CERTIFICATE-----\n";
-*/
-                          /* Certificat racine
 
-                          "-----BEGIN CERTIFICATE-----\n" \
-                          "MIICCTCCAY6gAwIBAgINAgPlwGjvYxqccpBQUjAKBggqhkjOPQQDAzBHMQswCQYD\n" \
-                          "VQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzEUMBIG\n" \
-                          "A1UEAxMLR1RTIFJvb3QgUjQwHhcNMTYwNjIyMDAwMDAwWhcNMzYwNjIyMDAwMDAw\n" \
-                          "WjBHMQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2Vz\n" \
-                          "IExMQzEUMBIGA1UEAxMLR1RTIFJvb3QgUjQwdjAQBgcqhkjOPQIBBgUrgQQAIgNi\n" \
-                          "AATzdHOnaItgrkO4NcWBMHtLSZ37wWHO5t5GvWvVYRg1rkDdc/eJkTBa6zzuhXyi\n" \
-                          "QHY7qca4R9gq55KRanPpsXI5nymfopjTX15YhmUPoYRlBtHci8nHc8iMai/lxKvR\n" \
-                          "HYqjQjBAMA4GA1UdDwEB/wQEAwIBhjAPBgNVHRMBAf8EBTADAQH/MB0GA1UdDgQW\n" \
-                          "BBSATNbrdP9JNqPV2Py1PsVq8JQdjDAKBggqhkjOPQQDAwNpADBmAjEA6ED/g94D\n" \
-                          "9J+uHXqnLrmvT/aDHQ4thQEd0dlq7A/Cr8deVl5c1RxYIigL9zC2L7F8AjEA8GE8\n" \
-                          "p/SgguMh1YQdc4acLa/KNJvxn7kjNuK8YAOdgLOaVsjh4rsUecrNIdSUtUlD\n" \
-                          "-----END CERTIFICATE-----\n";
-*/
 
 
 
@@ -81,40 +65,36 @@ bool getMOTOData() {
   if (WiFi.status() != WL_CONNECTED) {
     return false;
   }
-  // WiFiClientSecure client; // ouvre un client sécurisé
-  // HTTPClient http;
-  client->setCACert(root_ca_moto);    // positionne le certificat racine
-  Serial.println("Avant http.begin ");
-  https.begin(*client, mongolURI); // prépare l'appel à l'url 
-  // Specify content-type header
-  //http.addHeader("accept", "application/json");
-  https.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
+  client2->setCACert(root_ca_moto);    // positionne le certificat racine
+  Serial.println("*** Moto *** Avant http.begin ");
+  https2.begin(*client2, mongolURI); // prépare l'appel à l'url 
+  https2.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
   // Send HTTP POST request
   //int codeReponseHTTP = http.POST(nullptr, 0);
-  int codeReponseHTTP = https.GET();
+  int codeReponseHTTP = https2.GET();
   if (codeReponseHTTP > 0) {
       // HTTP header has been send and Server response header has been handled
-      Serial.printf("[HTTPS] GET... code: %d\n\n", codeReponseHTTP);
+      Serial.printf("*** Moto *** [HTTPS] GET... code: %d\n\n", codeReponseHTTP);
 
     if (codeReponseHTTP == HTTP_CODE_OK || codeReponseHTTP == HTTP_CODE_MOVED_PERMANENTLY) {
-      String payload = https.getString(); // La réponse
+      String payload = https2.getString(); // La réponse
       // strlcpy(*reponseMoto, char* payload.c_str(),payload.length);
       //lv_textarea_set_text(ui_Log, payload.c_str() );
       Serial.println(payload); 
       doc1.clear();
-      Serial.println("Avant deserialization");
+      Serial.println("*** MOTO ***  Avant deserialization");
       *reponseMoto = payload.c_str(); // convertir un string en char *
       Serial.println("*reponseMoto=");
       Serial.println(*reponseMoto);
       DeserializationError error = deserializeJson(doc1, *reponseMoto, 1800); /////////////////////////////////////
-      Serial.println("Apres deserialisation");
+      Serial.println("*** MOTO *** Apres deserialisation");
       if (error) {
-        Serial.print("deserializeJson() failed: ");
+        Serial.print("*** MOTO *** deserializeJson() failed: ");
         Serial.println(error.c_str());
-        lv_textarea_set_text(ui_Log, "Erreur de désérialisation");                                    //lv_textarea_set_text(ui_Log, error.c_str());
+        lv_textarea_set_text(ui_Log, "*** MOTO *** Erreur de désérialisation");                                    //lv_textarea_set_text(ui_Log, error.c_str());
         return false;
       }
-      Serial.println("Avant JSON ");
+      Serial.println("*** MOTO *** Avant JSON ");
       JsonObject root_0 = doc1[0];
       String analyseMoto = "Batterie de service : "; String tmp = root_0["main_voltage"];  analyseMoto += tmp; analyseMoto += "V \n";
       String address = root_0["address"]; // "BUC, Sente du Haras"
@@ -141,11 +121,12 @@ bool getMOTOData() {
       const char*  datetime_utc = root_0["datetime_utc"]; // "20240722153050"
       int  intSoc = root_0["soc"];
       const char*  soc = root_0["soc"]; // 72
-      
       int  charging = root_0["charging"]; // 0
       int  chargecomplete = root_0["chargecomplete"]; // 0
+      analyseMoto += "Charge finie ? : ";  analyseMoto += chargecomplete;   analyseMoto += "\n";
       int  pluggedin = root_0["pluggedin"]; // 0
       int  chargingtimeleft = root_0["chargingtimeleft"]; // 0
+
       int  storage = root_0["storage"]; // 0
       char charSoc[4] = {"99"};
       itoa(intSoc, charSoc, 10);
@@ -170,7 +151,7 @@ bool getMOTOData() {
       // Conditionner l'affichage de la prise de charge à son branchement (30 estompée / 255 affichée)
       lv_obj_set_style_opa(ui_priseCharge, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
       // si branché on active la prise
-      if (pluggedin==0){
+      if (pluggedin==1){
         //lv_obj_set_style_opa(ui_priseCharge, 250, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_clear_flag(ui_priseCharge, LV_OBJ_FLAG_HIDDEN); 
       }
@@ -180,7 +161,7 @@ bool getMOTOData() {
       }
  
       // Conditionner l'affichage du flash et du spiner tournant lorsque la charge est en cours
-      if (charging == 0){
+      if (charging == 1){
         //lv_obj_set_style_opa(ui_flashAlim, 230, LV_PART_MAIN | LV_STATE_DEFAULT);
         //lv_img_set_zoom(ui_flashAlim,300); // -1 / 0
         //lv_img_set_zoom(ui_priseCharge,250);
@@ -199,11 +180,11 @@ bool getMOTOData() {
     }
 
   } else 
-      { Serial.printf("[HTTPS] GET... failed, error: %s\n", https.errorToString(codeReponseHTTP).c_str()); 
+      { Serial.printf("*** MOTO *** [HTTPS2] GET... failed, error: %s\n", https.errorToString(codeReponseHTTP).c_str()); 
         requeteOK = false;
       }       
-  https.end();
-  // client.stop();
+  https2.end();
+  client2->stop();
   return requeteOK;
 }
 

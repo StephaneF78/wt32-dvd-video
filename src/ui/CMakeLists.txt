@@ -21,7 +21,7 @@ SET(SOURCES components/ui_comp_buttondown.c
     images/ui_img_192753598.c
     images/ui_img_bptempobleu_50_png.c
     images/ui_img_ampoulebleu_png.c
-    images/ui_img_656426796.c
+    images/ui_img_bptemporouge50_png.c
     images/ui_img_weather_sun_cloud_png.c
     images/ui_img_weather_png.c
     images/ui_img_btn_bg_3_png.c

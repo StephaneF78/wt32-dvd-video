@@ -10,11 +10,22 @@ uint32_t RTEtimerCurrent=0; // Pour inclure un évènement dans la boucle timer
 uint32_t RTEtimerPrevious=0;
 uint32_t mototimerCurrent=0; // Pour inclure un évènement dans la boucle timer 
 uint32_t mototimerPrevious=0;
+uint32_t meteotimerCurrent=0; // Pour inclure un évènement dans la boucle timer 
+uint32_t meteotimerPrevious=0;
+uint32_t heuretimerCurrent=0; // Pour inclure un évènement dans la boucle timer 
+uint32_t heuretimerPrevious=0;
+
 char heureCourante[20]; // Dernière heure obtenue formattée
 static int32_t day, month, year; // la date du jour en int32
 
 WiFiClientSecure *client = new WiFiClientSecure;
+WiFiClientSecure *client1 = new WiFiClientSecure;
+WiFiClientSecure *client2 = new WiFiClientSecure;
+
 HTTPClient https;
+HTTPClient https1;
+HTTPClient https2;
+
 
 // Report RTE
 #define GREY    0x8410
