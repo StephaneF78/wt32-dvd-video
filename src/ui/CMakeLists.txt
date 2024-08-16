@@ -30,6 +30,7 @@ SET(SOURCES components/ui_comp_buttondown.c
     images/ui_img_610538489.c
     images/ui_img_house_png.c
     images/ui_img_rain_png.c
+    images/ui_img_pression_png.c
     images/ui_img_wind_png.c
     images/ui_img_sun_png.c
     images/ui_img_clouds_png.c

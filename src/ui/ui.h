@@ -88,6 +88,9 @@ extern lv_obj_t * ui_label_degree;
 extern lv_obj_t * ui_rain_group;
 extern lv_obj_t * ui_rain_icon;
 extern lv_obj_t * ui_rain_percent;
+extern lv_obj_t * ui_pression_group1;
+extern lv_obj_t * ui_Pression_icone;
+extern lv_obj_t * ui_Pression;
 extern lv_obj_t * ui_wind_group;
 extern lv_obj_t * ui_wind_icon;
 extern lv_obj_t * ui_wind_speed;
@@ -120,8 +123,6 @@ extern lv_obj_t * ui_week_weather_group;
 extern lv_obj_t * ui_forecast_group;
 extern lv_obj_t * ui_forecast_group1;
 extern lv_obj_t * ui_forecast_group2;
-extern lv_obj_t * ui_forecast_group3;
-extern lv_obj_t * ui_forecast_group4;
 void ui_event_button_down4_buttondown(lv_event_t * e);
 extern lv_obj_t * ui_button_down4;
 // SCREEN: ui_LogErreurs
@@ -167,6 +168,7 @@ LV_IMG_DECLARE(ui_img_710189694);    // assets/RollexMin-removebg-preview.png
 LV_IMG_DECLARE(ui_img_610538489);    // assets/RollexSec-removebg-preview.png
 LV_IMG_DECLARE(ui_img_house_png);    // assets/house.png
 LV_IMG_DECLARE(ui_img_rain_png);    // assets/rain.png
+LV_IMG_DECLARE(ui_img_pression_png);    // assets/pression.png
 LV_IMG_DECLARE(ui_img_wind_png);    // assets/wind.png
 LV_IMG_DECLARE(ui_img_sun_png);    // assets/sun.png
 LV_IMG_DECLARE(ui_img_clouds_png);    // assets/clouds.png

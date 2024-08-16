@@ -36,6 +36,7 @@ lv_obj_t * ui_weathergroup1_create(lv_obj_t * comp_parent)
 
     lv_obj_t * cui_cloud_fog_1;
     cui_cloud_fog_1 = lv_img_create(cui_weathergroup1);
+    lv_img_set_src(cui_cloud_fog_1, &ui_img_weather_sun_cloud_png);
     lv_obj_set_width(cui_cloud_fog_1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(cui_cloud_fog_1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(cui_cloud_fog_1, LV_ALIGN_CENTER);

@@ -160,18 +160,18 @@ void ui_weather_2_screen_init(void)
     ui_days_forecast = lv_label_create(ui_content);
     lv_obj_set_width(ui_days_forecast, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_days_forecast, LV_SIZE_CONTENT);    /// 1
-    lv_obj_set_x(ui_days_forecast, -87);
-    lv_obj_set_y(ui_days_forecast, 62);
+    lv_obj_set_x(ui_days_forecast, -181);
+    lv_obj_set_y(ui_days_forecast, -9);
     lv_obj_set_align(ui_days_forecast, LV_ALIGN_CENTER);
-    lv_label_set_text(ui_days_forecast, "10 days forecast");
+    lv_label_set_text(ui_days_forecast, "Meteo sur 3 jours");
     lv_obj_add_flag(ui_days_forecast, LV_OBJ_FLAG_IGNORE_LAYOUT);     /// Flags
-    lv_obj_set_style_text_font(ui_days_forecast, &ui_font_Title, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_days_forecast, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_week_weather_group = lv_obj_create(ui_content);
-    lv_obj_set_width(ui_week_weather_group, 310);
+    lv_obj_set_width(ui_week_weather_group, 270);
     lv_obj_set_height(ui_week_weather_group, LV_SIZE_CONTENT);    /// 205
-    lv_obj_set_x(ui_week_weather_group, 11);
-    lv_obj_set_y(ui_week_weather_group, -180);
+    lv_obj_set_x(ui_week_weather_group, 44);
+    lv_obj_set_y(ui_week_weather_group, -351);
     lv_obj_set_align(ui_week_weather_group, LV_ALIGN_CENTER);
     lv_obj_set_flex_flow(ui_week_weather_group, LV_FLEX_FLOW_COLUMN);
     lv_obj_set_flex_align(ui_week_weather_group, LV_FLEX_ALIGN_START, LV_FLEX_ALIGN_CENTER, LV_FLEX_ALIGN_CENTER);
@@ -180,12 +180,12 @@ void ui_weather_2_screen_init(void)
     lv_obj_set_style_bg_opa(ui_week_weather_group, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui_week_weather_group, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui_week_weather_group, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui_week_weather_group, 30, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui_week_weather_group, 20, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui_week_weather_group, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_forecast_group = ui_forecastgroup_create(ui_week_weather_group);
-    lv_obj_set_x(ui_forecast_group, 9);
-    lv_obj_set_y(ui_forecast_group, 79);
+    lv_obj_set_x(ui_forecast_group, 18);
+    lv_obj_set_y(ui_forecast_group, -34);
 
     lv_label_set_text(ui_comp_get_child(ui_forecast_group, UI_COMP_FORECASTGROUP_DAY1), "Tue");
 
@@ -218,29 +218,6 @@ void ui_weather_2_screen_init(void)
     lv_label_set_text(ui_comp_get_child(ui_forecast_group2, UI_COMP_FORECASTGROUP_DEGREE_GROUP_NIGHTTIME), "19°");
 
     lv_img_set_src(ui_comp_get_child(ui_forecast_group2, UI_COMP_FORECASTGROUP_CLOUD_SUN), &ui_img_weather_cloud_png);
-
-    ui_forecast_group3 = ui_forecastgroup_create(ui_week_weather_group);
-    lv_obj_set_x(ui_forecast_group3, 9);
-    lv_obj_set_y(ui_forecast_group3, 79);
-
-    lv_label_set_text(ui_comp_get_child(ui_forecast_group3, UI_COMP_FORECASTGROUP_DAY1), "Fri");
-
-
-
-    lv_label_set_text(ui_comp_get_child(ui_forecast_group3, UI_COMP_FORECASTGROUP_DEGREE_GROUP_NIGHTTIME), "16°");
-
-    lv_img_set_src(ui_comp_get_child(ui_forecast_group3, UI_COMP_FORECASTGROUP_CLOUD_SUN), &ui_img_weather_cloud_fog_png);
-
-    ui_forecast_group4 = ui_forecastgroup_create(ui_week_weather_group);
-    lv_obj_set_x(ui_forecast_group4, 9);
-    lv_obj_set_y(ui_forecast_group4, 79);
-
-    lv_label_set_text(ui_comp_get_child(ui_forecast_group4, UI_COMP_FORECASTGROUP_DAY1), "Sat");
-
-
-    lv_label_set_text(ui_comp_get_child(ui_forecast_group4, UI_COMP_FORECASTGROUP_DEGREE_GROUP_DAYTIME), "27°");
-
-    lv_label_set_text(ui_comp_get_child(ui_forecast_group4, UI_COMP_FORECASTGROUP_DEGREE_GROUP_NIGHTTIME), "20°");
 
     ui_button_down4 = ui_buttondown_create(ui_weather_2);
     lv_obj_set_x(ui_button_down4, 197);

@@ -84,6 +84,9 @@ lv_obj_t * ui_label_degree;
 lv_obj_t * ui_rain_group;
 lv_obj_t * ui_rain_icon;
 lv_obj_t * ui_rain_percent;
+lv_obj_t * ui_pression_group1;
+lv_obj_t * ui_Pression_icone;
+lv_obj_t * ui_Pression;
 lv_obj_t * ui_wind_group;
 lv_obj_t * ui_wind_icon;
 lv_obj_t * ui_wind_speed;
@@ -118,8 +121,6 @@ lv_obj_t * ui_week_weather_group;
 lv_obj_t * ui_forecast_group;
 lv_obj_t * ui_forecast_group1;
 lv_obj_t * ui_forecast_group2;
-lv_obj_t * ui_forecast_group3;
-lv_obj_t * ui_forecast_group4;
 void ui_event_button_down4_buttondown(lv_event_t * e);
 lv_obj_t * ui_button_down4;
 
@@ -158,6 +159,7 @@ const lv_img_dsc_t * ui_imgset_bg[3] = {&ui_img_bg1_png, &ui_img_bg2_png, &ui_im
 const lv_img_dsc_t * ui_imgset_boutontemporouge[2] = {&ui_img_boutontemporouge50_png, &ui_img_boutontemporouge70_png};
 const lv_img_dsc_t * ui_imgset_bptempoblanc_[1] = {&ui_img_bptempoblanc_50_png};
 const lv_img_dsc_t * ui_imgset_bptempobleu_[1] = {&ui_img_bptempobleu_50_png};
+const lv_img_dsc_t * ui_imgset_bptemporouge[1] = {&ui_img_bptemporouge50_png};
 const lv_img_dsc_t * ui_imgset_btn_bg_[3] = {&ui_img_btn_bg_1_png, &ui_img_btn_bg_2_png, &ui_img_btn_bg_3_png};
 const lv_img_dsc_t * ui_imgset_fondmulticolor[1] = {&ui_img_fondmulticolor1_png};
 const lv_img_dsc_t * ui_imgset_heart[1] = {&ui_img_heart2_png};
@@ -168,7 +170,6 @@ const lv_img_dsc_t * ui_imgset_2017742575[1] = {&ui_img_1027436578};
 const lv_img_dsc_t * ui_imgset_1679588828[1] = {&ui_img_299354449};
 const lv_img_dsc_t * ui_imgset_1680704923[1] = {&ui_img_1381083628};
 const lv_img_dsc_t * ui_imgset_zerotrans[1] = {&ui_img_zerotrans1_png};
-const lv_img_dsc_t * ui_imgset_bptemporouge[1] = {&ui_img_bptemporouge50_png};
 
 ///////////////////// TEST LVGL SETTINGS ////////////////////
 #if LV_COLOR_DEPTH != 16

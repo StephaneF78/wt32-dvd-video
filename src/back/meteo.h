@@ -123,7 +123,7 @@ bool getMETEOData() {
 
         JsonObject list_0_main = list_0["main"];
         float list_0_main_temp = list_0_main["temp"]; // 22.68 rempl float par char*
-        char buffer [5];
+        char buffer [10];
         String temperatureString;
         dtostrf(list_0_main_temp,1,1,buffer); // on limite à une décimale le float    
         temperatureString = String(buffer); temperatureString += "°";
@@ -138,7 +138,9 @@ bool getMETEOData() {
         dtostrf(list_0_main_temp_min,1,1,buffer); // on limite à une décimale le float    
         temperatureMinMaxString += String(buffer); temperatureMinMaxString += "°";
         lv_label_set_text(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_SUBTITLE), temperatureMinMaxString.c_str());
-        int list_0_main_pressure = list_0_main["pressure"]; // 1019
+        String list_0_main_pressure = list_0_main["pressure"]; // 1019
+        list_0_main_pressure += "hp";
+        lv_label_set_text(ui_Pression, list_0_main_pressure.c_str());
         int list_0_main_sea_level = list_0_main["sea_level"]; // 1019
         int list_0_main_grnd_level = list_0_main["grnd_level"]; // 1006
         int list_0_main_humidity = list_0_main["humidity"]; // 60 
@@ -157,7 +159,7 @@ bool getMETEOData() {
         float list_0_wind_speed = list_0_wind["speed"]; // 3.56
         String windString = "Max ";
         dtostrf(list_0_wind_speed,1,1,buffer); // on limite à une décimale le float    
-        windString += String(buffer); windString += " kmm/h";
+        windString += String(buffer); windString += "km/h";
 
         lv_label_set_text(ui_wind_speed, windString.c_str());
 
