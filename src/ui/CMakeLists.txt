@@ -17,7 +17,7 @@ SET(SOURCES components/ui_comp_buttondown.c
     components/ui_comp_hook.c
     ui_helpers.c
     ui_events.c
-    images/ui_img_fondmulticolor1_png.c
+    images/ui_img_fondmulticolor_png.c
     images/ui_img_192753598.c
     images/ui_img_bptempobleu_50_png.c
     images/ui_img_ampoulebleu_png.c
@@ -33,32 +33,69 @@ SET(SOURCES components/ui_comp_buttondown.c
     images/ui_img_pression_png.c
     images/ui_img_wind_png.c
     images/ui_img_sun_png.c
-    images/ui_img_clouds_png.c
+    images/ui_img_50d2x_png.c
     images/ui_img_weather_sun_png.c
+    images/ui_img_01d2x_png.c
+    images/ui_img_02d2x_png.c
+    images/ui_img_02n2x_png.c
+    images/ui_img_03d2x_png.c
+    images/ui_img_03n2x_png.c
+    images/ui_img_04d2x_png.c
     images/ui_img_weather_cloud_png.c
-    images/ui_img_weather_cloud_fog_png.c
     images/ui_img_zerotrans1_png.c
     images/ui_img_prise100trans_png.c
     images/ui_img_flash_png.c
+    images/ui_img_01n2x_png.c
+    images/ui_img_04n2x_png.c
+    images/ui_img_09d2x_png.c
+    images/ui_img_09n2x_png.c
+    images/ui_img_10d2x_png.c
+    images/ui_img_10n2x_png.c
+    images/ui_img_11d2x_png.c
+    images/ui_img_11n2x_png.c
+    images/ui_img_13d2x_png.c
+    images/ui_img_13n2x_png.c
+    images/ui_img_50n2x_png.c
+    images/ui_img_ampouleblanche_png.c
+    images/ui_img_ampoulerouge_png.c
+    images/ui_img_arrow_png.c
     images/ui_img_bg1_png.c
     images/ui_img_bg2_png.c
     images/ui_img_bg3_png.c
+    images/ui_img_boutontemporouge_png.c
     images/ui_img_boutontemporouge50_png.c
     images/ui_img_boutontemporouge70_png.c
+    images/ui_img_boutontemporougefondnoir_png.c
     images/ui_img_bptempoblanc_50_png.c
     images/ui_img_btn_bg_1_png.c
     images/ui_img_btn_bg_2_png.c
+    images/ui_img_clockwise_hour_png.c
+    images/ui_img_clockwise_min_png.c
+    images/ui_img_clockwise_sec_png.c
+    images/ui_img_clouds_png.c
+    images/ui_img_fondmulticolor1_png.c
+    images/ui_img_grid_png.c
+    images/ui_img_heart_png.c
     images/ui_img_heart2_png.c
+    images/ui_img_mask_png.c
+    images/ui_img_measure_png.c
+    images/ui_img_mute_png.c
+    images/ui_img_rollexmin_png.c
+    images/ui_img_rollexsec_png.c
     images/ui_img_rollexsec1_png.c
     images/ui_img_s1_png.c
     images/ui_img_s2_png.c
     images/ui_img_s4_png.c
     images/ui_img_s5_png.c
+    images/ui_img_sec_dot_png.c
+    images/ui_img_step_png.c
     images/ui_img_wave1_png.c
     images/ui_img_wave2_png.c
+    images/ui_img_weather_cloud_fog_png.c
     images/ui_img_1027436578.c
     images/ui_img_299354449.c
     images/ui_img_1381083628.c
+    images/ui_img_x_png.c
     fonts/ui_font_H1.c
     fonts/ui_font_Number_big.c
     fonts/ui_font_Number_extra.c

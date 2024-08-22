@@ -13,7 +13,7 @@ void ui_Conso_EDF_screen_init(void)
     lv_obj_set_style_bg_opa(ui_Conso_EDF, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_bg_1 = lv_img_create(ui_Conso_EDF);
-    lv_img_set_src(ui_bg_1, &ui_img_fondmulticolor1_png);
+    lv_img_set_src(ui_bg_1, &ui_img_fondmulticolor_png);
     lv_obj_set_width(ui_bg_1, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_bg_1, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_bg_1, LV_ALIGN_CENTER);

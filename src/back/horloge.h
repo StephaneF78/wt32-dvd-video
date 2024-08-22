@@ -120,20 +120,21 @@ uint64_t setSynchroHour(){
 
   char charYYYY[10];
   char charMON[10];
-  char charDAY[10];
+  char charDAY[15];
   char charHH[10];
   char charMM[10];
   char charSS[10];
   uint64_t heureMS;
   char heureCouranteMS[16];
   //setlocale(LC_ALL,"");
-  setlocale(LC_ALL, "fr_FR.utf8");
-  setlocale(LC_TIME, "fr_FR.utf8");
+  setlocale(LC_ALL, "fr_FR.utf8 French");
+  setlocale(LC_TIME, "fr_FR.utf8 French");
+ // setlocale(LC_TIME, 'fr', 'fr_FR', 'fr_FR.ISO8859-1');
   
   getLocalTime(&timeinfo);
   strftime( charYYYY, sizeof charYYYY, "%Y", &timeinfo);
   strftime( charMON, sizeof charMON, "%B", &timeinfo);
-  strftime( charDAY, sizeof charDAY, "%A", &timeinfo);
+  strftime( charDAY, sizeof charDAY, "%a %e", &timeinfo);
   strftime( charHH, sizeof charHH, "%H", &timeinfo);
   strftime( charMM, sizeof charMM, "%M", &timeinfo);
   strftime( charSS, sizeof charSS, "%S", &timeinfo);

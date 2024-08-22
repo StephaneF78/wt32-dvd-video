@@ -28,6 +28,7 @@ lv_obj_t * ui_pulsegroup_create(lv_obj_t * comp_parent)
 
     lv_obj_t * cui_heart;
     cui_heart = lv_img_create(cui_pulsegroup);
+    lv_img_set_src(cui_heart, &ui_img_heart_png);
     lv_obj_set_width(cui_heart, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(cui_heart, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(cui_heart, LV_ALIGN_CENTER);

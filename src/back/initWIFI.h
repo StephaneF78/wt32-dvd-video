@@ -8,6 +8,41 @@ const char *password = "A6D169EE453122AA5D7A4E7D523CEF";
 
 const char *ssid1 = "Freebox-146FB3";
 const char *password1 = "protis6#-fodito-quomque-ericum";
+
+// Constantes pour Google
+const char* root_ca_googleAPI =\
+                          "-----BEGIN CERTIFICATE-----\n" \
+                          "MIIFVzCCAz+gAwIBAgINAgPlk28xsBNJiGuiFzANBgkqhkiG9w0BAQwFADBHMQsw\n" \
+                          "CQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZpY2VzIExMQzEU\n" \
+                          "MBIGA1UEAxMLR1RTIFJvb3QgUjEwHhcNMTYwNjIyMDAwMDAwWhcNMzYwNjIyMDAw\n" \
+                          "MDAwWjBHMQswCQYDVQQGEwJVUzEiMCAGA1UEChMZR29vZ2xlIFRydXN0IFNlcnZp\n" \
+                          "Y2VzIExMQzEUMBIGA1UEAxMLR1RTIFJvb3QgUjEwggIiMA0GCSqGSIb3DQEBAQUA\n" \
+                          "A4ICDwAwggIKAoICAQC2EQKLHuOhd5s73L+UPreVp0A8of2C+X0yBoJx9vaMf/vo\n" \
+                          "27xqLpeXo4xL+Sv2sfnOhB2x+cWX3u+58qPpvBKJXqeqUqv4IyfLpLGcY9vXmX7w\n" \
+                          "Cl7raKb0xlpHDU0QM+NOsROjyBhsS+z8CZDfnWQpJSMHobTSPS5g4M/SCYe7zUjw\n" \
+                          "TcLCeoiKu7rPWRnWr4+wB7CeMfGCwcDfLqZtbBkOtdh+JhpFAz2weaSUKK0Pfybl\n" \
+                          "qAj+lug8aJRT7oM6iCsVlgmy4HqMLnXWnOunVmSPlk9orj2XwoSPwLxAwAtcvfaH\n" \
+                          "szVsrBhQf4TgTM2S0yDpM7xSma8ytSmzJSq0SPly4cpk9+aCEI3oncKKiPo4Zor8\n" \
+                          "Y/kB+Xj9e1x3+naH+uzfsQ55lVe0vSbv1gHR6xYKu44LtcXFilWr06zqkUspzBmk\n" \
+                          "MiVOKvFlRNACzqrOSbTqn3yDsEB750Orp2yjj32JgfpMpf/VjsPOS+C12LOORc92\n" \
+                          "wO1AK/1TD7Cn1TsNsYqiA94xrcx36m97PtbfkSIS5r762DL8EGMUUXLeXdYWk70p\n" \
+                          "aDPvOmbsB4om3xPXV2V4J95eSRQAogB/mqghtqmxlbCluQ0WEdrHbEg8QOB+DVrN\n" \
+                          "VjzRlwW5y0vtOUucxD/SVRNuJLDWcfr0wbrM7Rv1/oFB2ACYPTrIrnqYNxgFlQID\n" \
+                          "AQABo0IwQDAOBgNVHQ8BAf8EBAMCAYYwDwYDVR0TAQH/BAUwAwEB/zAdBgNVHQ4E\n" \
+                          "FgQU5K8rJnEaK0gnhS9SZizv8IkTcT4wDQYJKoZIhvcNAQEMBQADggIBAJ+qQibb\n" \
+                          "C5u+/x6Wki4+omVKapi6Ist9wTrYggoGxval3sBOh2Z5ofmmWJyq+bXmYOfg6LEe\n" \
+                          "QkEzCzc9zolwFcq1JKjPa7XSQCGYzyI0zzvFIoTgxQ6KfF2I5DUkzps+GlQebtuy\n" \
+                          "h6f88/qBVRRiClmpIgUxPoLW7ttXNLwzldMXG+gnoot7TiYaelpkttGsN/H9oPM4\n" \
+                          "7HLwEXWdyzRSjeZ2axfG34arJ45JK3VmgRAhpuo+9K4l/3wV3s6MJT/KYnAK9y8J\n" \
+                          "ZgfIPxz88NtFMN9iiMG1D53Dn0reWVlHxYciNuaCp+0KueIHoI17eko8cdLiA6Ef\n" \
+                          "MgfdG+RCzgwARWGAtQsgWSl4vflVy2PFPEz0tv/bal8xa5meLMFrUKTX5hgUvYU/\n" \
+                          "Z6tGn6D/Qqc6f1zLXbBwHSs09dR2CQzreExZBfMzQsNhFRAbd03OIozUhfJFfbdT\n" \
+                          "6u9AWpQKXCBfTkBdYiJ23//OYb2MI3jSNwLgjt7RETeJ9r/tSQdirpLsQBqvFAnZ\n" \
+                          "0E6yove+7u7Y/9waLd64NnHi/Hm3lCXRSHNboTXns5lndcEZOitHTtNCjv0xyBZm\n" \
+                          "2tIMPNuzjsmhDYAPexZ3FL//2wmUspO8IFgV6dtxQ/PeEMMA3KgqlbbC1j+Qa3bb\n" \
+                          "bP6MvPJwNQzcmRk13NfIRmPVNnGuV/u3gm3c\n" \
+                          "-----END CERTIFICATE-----\n";
+
  
 // Pour le WIFI Manager
 bool shouldSaveConfig = false;    // Flag for saving data wifimanager
@@ -222,4 +257,72 @@ void callWIFIManager() // tiré de l'exemple https://dronebotworkshop.com/wifima
     saveConfigFile();
   }
 }
- 
+
+
+String getLocation() {
+  // clé API google : AIzaSyDlvY0t6dF8ik8u-ll_34Qi1Sdg0AV70ZY
+  /*
+  {
+  "location": {
+    "lat": 46.1570048,
+    "lng": -1.3238272
+  },
+  "accuracy": 1364.7858494926766
+  }
+  */
+  const char* googleApiKey = "AIzaSyDlvY0t6dF8ik8u-ll_34Qi1Sdg0AV70ZY";
+
+  String googleURI = "https://www.googleapis.com/geolocation/v1/geolocate?key=";
+  googleURI += googleApiKey;
+  client1->setCACert(root_ca_googleAPI);    // positionne le certificat racine
+  Serial.println("*** Meteo *** Avant https1.begin ");
+  https1.begin(*client1, googleURI); // prépare l'appel à l'url 
+
+
+  //HTTPClient http;
+  // https1.begin(googleURI);
+  https1.addHeader("Content-Type", "application/json");
+
+  String requestBody = "{\"considerIp\": \"true\"}";
+
+  int httpReponseCode = https1.POST(requestBody);
+  String reponse = "";
+
+  if (httpReponseCode > 0) {
+    reponse = https1.getString();
+    Serial.print(" *** GOOGLE location *** Localisation : ");
+    Serial.println(httpReponseCode);
+    Serial.println(reponse);
+    StaticJsonDocument<128> doc;
+
+    DeserializationError error = deserializeJson(doc, reponse);
+
+    if (error) {
+      Serial.print(" *** location google *** deserializeJson() failed: ");
+      Serial.println(error.c_str());
+      return "error";
+    }
+    location_lat = (double)doc["location"]["lat"]; // 46.1570048
+    location_lng = (double)doc["location"]["lng"]; // -1.3238272
+    //location_lat = location_lat * 10000000;
+    //location_lng = location_lng * 10000000;
+    dtostrf(location_lat,2,7,location_latChar);
+    dtostrf(location_lng,2,7,location_lngChar);  // dtostrf( [doubleVar] , [sizeBeforePoint] , [sizeAfterPoint] , [WhereToStoreIt] )
+
+    Serial.print(" *** location google *** Lat =");
+    Serial.println(location_lat);
+    Serial.print(" *** location google *** Long =");
+    Serial.println(location_lng);
+    Serial.print(" *** location google *** LatChar =");
+    Serial.println(location_latChar);
+    Serial.print(" *** location google *** LongChar =");
+    Serial.println(location_lngChar);
+    
+  } else {
+    Serial.print(" *** GOOGLE *** Erreur dans l'envoi de la requête: ");
+    Serial.println(httpReponseCode);
+  }
+  https1.end();
+  client1->stop();
+  return reponse;
+}

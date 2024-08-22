@@ -414,6 +414,7 @@ void setup()
   printLocalTime(); // Récupère NTP et affiche l'heure sur l'écran
   //setupMontreRonde();
   setSynchroDate();
+  getLocation(); // retrouve la localisation via google et le WIFI et stocke ds var globales
   getRTEData();
   getMOTOData();
   getMETEOData();    

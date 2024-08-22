@@ -68,14 +68,22 @@ const char* root_ca_meteo =\
 
 
 
-const char* meteoURI =          "https://api.openweathermap.org/data/2.5/forecast?lat=48.8035403&&cnt=18&lang=fr&units=metric&type=hour&lon=2.1266886&appid=5c7bd1cf8e3e40c166f24d9b0bfabe89";
+
+const char* meteoURI =          "https://api.openweathermap.org/data/2.5/forecast?&&cnt=18&lang=fr&units=metric&type=hour&appid=5c7bd1cf8e3e40c166f24d9b0bfabe89";
+// Récup des icones : https://openweathermap.org/img/wn/10d@2x.png
+
 
 bool getMETEOData() {
   Serial.println("******* METEO ********");
-
   const char* reponseMeteo[13000];  // const 
   DynamicJsonDocument doc(12300); // 12288
   bool requeteOK = true;
+  String meteoURIString = meteoURI;
+  String location_latString = location_latChar;
+  String location_lngString = location_lngChar;
+
+  meteoURIString += "&lat="; meteoURIString += location_latString; meteoURIString += "&lon=";meteoURIString += location_lngString;
+  Serial.print("meteoURIString = "); Serial.println(meteoURIString); 
 
   if (WiFi.status() != WL_CONNECTED) {
     return false;
@@ -84,7 +92,7 @@ bool getMETEOData() {
   client1->setCACert(root_ca_meteo);    // positionne le certificat racine
   Serial.println("*** Meteo *** Avant https1.begin ");
 
-  https1.begin(*client1, meteoURI); // prépare l'appel à l'url 
+  https1.begin(*client1, meteoURIString); // prépare l'appel à l'url 
   // Specify content-type header
   //http.addHeader("accept", "application/json");
   https1.addHeader("Content-Type", "application/x-www-form-urlencoded"); //Je sais pas s'il faut cette conf ????????
@@ -128,16 +136,19 @@ bool getMETEOData() {
         dtostrf(list_0_main_temp,1,1,buffer); // on limite à une décimale le float    
         temperatureString = String(buffer); temperatureString += "°";
         lv_label_set_text(ui_label_degree, temperatureString.c_str());
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_DEGREE_6), temperatureString.c_str()); // meteo 2 détail par heure / Now
         Serial.println("temp acuelle = "); Serial.println(temperatureString.c_str());
         float list_0_main_feels_like = list_0_main["feels_like"]; // 22.57
         float list_0_main_temp_min = list_0_main["temp_min"]; // 22.68
         float list_0_main_temp_max = list_0_main["temp_max"]; // 26.13
         String temperatureMinMaxString = "Max ";
         dtostrf(list_0_main_temp_max,1,1,buffer); // on limite à une décimale le float    
-        temperatureMinMaxString += String(buffer); temperatureMinMaxString += "° - Min ";
+        temperatureMinMaxString += String(buffer); temperatureMinMaxString += "° Min ";
         dtostrf(list_0_main_temp_min,1,1,buffer); // on limite à une décimale le float    
         temperatureMinMaxString += String(buffer); temperatureMinMaxString += "°";
         lv_label_set_text(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_SUBTITLE), temperatureMinMaxString.c_str());
+        lv_label_set_text(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE), temperatureMinMaxString.c_str());
+
         String list_0_main_pressure = list_0_main["pressure"]; // 1019
         list_0_main_pressure += "hp";
         lv_label_set_text(ui_Pression, list_0_main_pressure.c_str());
@@ -153,6 +164,99 @@ bool getMETEOData() {
         const char* list_0_weather_0_description = list_0_weather_0["description"]; // "ciel dégagé"
         lv_label_set_text(ui_comp_get_child(ui_weather_title_group_3, UI_COMP_TITLEGROUP_TITLE), list_0_weather_0_description);
         const char* list_0_weather_0_icon = list_0_weather_0["icon"]; // "01d"
+        String iconString = list_0_weather_0_icon;
+        Serial.print("*** icon = ");
+        Serial.println(iconString.c_str());
+        //lv_img_set_src(ui_clouds, &ui_img_50d2x_png);
+
+
+
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group1, UI_COMP_TODAYWEATHERGROUP_DEGREE_6), "26°");
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group1, UI_COMP_TODAYWEATHERGROUP_DEGREE_8), "16:00");
+
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group2, UI_COMP_TODAYWEATHERGROUP_DEGREE_8), "17:00");
+
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group3, UI_COMP_TODAYWEATHERGROUP_DEGREE_6), "22°");
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group3, UI_COMP_TODAYWEATHERGROUP_DEGREE_8), "18:00");
+
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group4, UI_COMP_TODAYWEATHERGROUP_DEGREE_6), "21°");
+
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group4, UI_COMP_TODAYWEATHERGROUP_DEGREE_8), "19:00");
+
+        //Serial.print("*** icon1 = ");
+        //Serial.println(buffer1);
+        if (iconString.equals("01d")) {
+          lv_img_set_src(ui_clouds, &ui_img_01d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_01d2x_png);
+        }
+        if (iconString.equals("02d")) {
+          lv_img_set_src(ui_clouds, &ui_img_02d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_02d2x_png);
+          }
+        if (iconString.equals("03d")) {
+          lv_img_set_src(ui_clouds, &ui_img_03d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_03d2x_png);
+          }
+        if (iconString.equals("04d")) {
+          lv_img_set_src(ui_clouds, &ui_img_04d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_04d2x_png);
+          }
+        if (iconString.equals("09d")) {
+          lv_img_set_src(ui_clouds, &ui_img_09d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_09d2x_png);
+          }
+        if (iconString.equals("10d")) {
+          lv_img_set_src(ui_clouds, &ui_img_10d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_10d2x_png);
+          }
+        if (iconString.equals("11d")) {
+          lv_img_set_src(ui_clouds, &ui_img_11d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_11d2x_png);
+          }
+        if (iconString.equals("13d")) {
+          lv_img_set_src(ui_clouds, &ui_img_13d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_13d2x_png);
+          }
+        if (iconString.equals("50d")) {
+          lv_img_set_src(ui_clouds, &ui_img_50d2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_50d2x_png);
+          }
+        if (iconString.equals("01n")) {
+          lv_img_set_src(ui_clouds, &ui_img_01n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_01n2x_png);
+          }
+        if (iconString.equals("02n")) {
+          lv_img_set_src(ui_clouds, &ui_img_02n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_02n2x_png);
+          }
+        if (iconString.equals("03n")) {
+          lv_img_set_src(ui_clouds, &ui_img_03n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_03n2x_png);
+          }
+        if (iconString.equals("04n")) {
+          lv_img_set_src(ui_clouds, &ui_img_04n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_04n2x_png);
+          }
+        if (iconString.equals("09n")) {
+          lv_img_set_src(ui_clouds, &ui_img_09n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_09n2x_png);          
+          }
+        if (iconString.equals("10n")) {
+          lv_img_set_src(ui_clouds, &ui_img_10n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_10n2x_png);          
+          }
+        if (iconString.equals("11n")) {
+          lv_img_set_src(ui_clouds, &ui_img_11n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_11n2x_png);          
+          }
+        if (iconString.equals("13n")) {
+          lv_img_set_src(ui_clouds, &ui_img_13n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_13n2x_png);
+          }
+        if (iconString.equals("50n")) {
+          lv_img_set_src(ui_clouds, &ui_img_50n2x_png);
+          lv_img_set_src(ui_comp_get_child(ui_today_weather_group, UI_COMP_TODAYWEATHERGROUP_CLOUD_SUN), &ui_img_50n2x_png);          
+          }
 
         int list_0_clouds_all = list_0["clouds"]["all"]; // 0
         JsonObject list_0_wind = list_0["wind"];
@@ -209,6 +313,9 @@ bool getMETEOData() {
         const char* list_1_sys_pod = list_1["sys"]["pod"]; // "d"
 
         const char* list_1_dt_txt = list_1["dt_txt"]; // "2024-08-11 12:00:00"
+        
+        lv_label_set_text(ui_comp_get_child(ui_today_weather_group1, UI_COMP_TODAYWEATHERGROUP_DEGREE_8), "16:00"); // prendre l'heure n°2
+
 
         JsonObject list_2 = list[2];
         long list_2_dt = list_2["dt"]; // 1723388400
@@ -228,6 +335,8 @@ bool getMETEOData() {
         int list_2_weather_0_id = list_2_weather_0["id"]; // 803
         const char* list_2_weather_0_main = list_2_weather_0["main"]; // "Clouds"
         const char* list_2_weather_0_description = list_2_weather_0["description"]; // "nuageux"
+        lv_label_set_text(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), list_2_weather_0_description);
+
         const char* list_2_weather_0_icon = list_2_weather_0["icon"]; // "04d"
 
         int list_2_clouds_all = list_2["clouds"]["all"]; // 64

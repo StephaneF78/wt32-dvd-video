@@ -13,7 +13,7 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_bg_opa(ui_watch_analog, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_bg_2 = lv_img_create(ui_watch_analog);
-    lv_img_set_src(ui_bg_2, &ui_img_fondmulticolor1_png);
+    lv_img_set_src(ui_bg_2, &ui_img_fondmulticolor_png);
     lv_obj_set_width(ui_bg_2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_bg_2, LV_SIZE_CONTENT);    /// 1
     lv_obj_set_align(ui_bg_2, LV_ALIGN_CENTER);
@@ -159,6 +159,8 @@ void ui_watch_analog_screen_init(void)
     ui_day2 = lv_label_create(ui_date_group2);
     lv_obj_set_width(ui_day2, LV_SIZE_CONTENT);   /// 1
     lv_obj_set_height(ui_day2, LV_SIZE_CONTENT);    /// 1
+    lv_obj_set_x(ui_day2, -1);
+    lv_obj_set_y(ui_day2, 0);
     lv_obj_set_align(ui_day2, LV_ALIGN_CENTER);
     lv_label_set_text(ui_day2, "MON");
     lv_obj_set_style_text_color(ui_day2, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -184,12 +186,11 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_text_font(ui_year2, &ui_font_Title, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_weather_title_group_2 = ui_titlegroup_create(ui_watch_analog);
-    lv_obj_set_x(ui_weather_title_group_2, -167);
-    lv_obj_set_y(ui_weather_title_group_2, -270);
-    lv_obj_set_align(ui_weather_title_group_2, LV_ALIGN_BOTTOM_MID);
+    lv_obj_set_x(ui_weather_title_group_2, -136);
+    lv_obj_set_y(ui_weather_title_group_2, -131);
 
+    lv_obj_set_align(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), LV_ALIGN_TOP_LEFT);
     lv_label_set_text(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), "Partly Cloudy");
-    lv_label_set_recolor(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), "true");
     lv_obj_set_style_text_color(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE),
                                 lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), 255,
@@ -199,8 +200,15 @@ void ui_watch_analog_screen_init(void)
     lv_obj_set_style_border_opa(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_TITLE), 255,
                                 LV_PART_MAIN | LV_STATE_DEFAULT);
 
+    lv_obj_set_align(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE), LV_ALIGN_BOTTOM_LEFT);
     lv_label_set_text(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE), "Max: 18° Min: 12°");
     lv_label_set_recolor(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE), "true");
+    lv_obj_set_style_text_color(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE),
+                                lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE), 255,
+                              LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_comp_get_child(ui_weather_title_group_2, UI_COMP_TITLEGROUP_SUBTITLE),
+                               &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
 
     ui_weather_group_5 = lv_obj_create(ui_watch_analog);
     lv_obj_set_width(ui_weather_group_5, 82);

@@ -256,6 +256,11 @@ bool getRTEData() {
 
   https.addHeader("Authorization", temposAutorization.c_str()); // On remplit le header iso postman autorization dans le header
   https.addHeader("host", headerHost);
+  https.addHeader("Accept", "application/json"); // Ajout SBI
+  
+
+ // curl --location 'https://digital.iservices.rte-france.com/open_api/tempo_like_supply_contract/v1/tempo_like_calendars?start_date=%3CdateTime%3E&end_date=%3CdateTime%3E&fallback_status=%3Cboolean%3E' \
+//--header 'Accept: application/json'
 
   codeReponseHTTP = https.GET();// On envoie la requête HTTP GET
   if (codeReponseHTTP == HTTP_CODE_OK) {

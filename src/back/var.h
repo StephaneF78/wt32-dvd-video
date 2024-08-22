@@ -14,6 +14,10 @@ uint32_t meteotimerCurrent=0; // Pour inclure un évènement dans la boucle time
 uint32_t meteotimerPrevious=0;
 uint32_t heuretimerCurrent=0; // Pour inclure un évènement dans la boucle timer 
 uint32_t heuretimerPrevious=0;
+double location_lat=0;
+double location_lng=0;
+char location_latChar[14];
+char location_lngChar[14];
 
 char heureCourante[20]; // Dernière heure obtenue formattée
 static int32_t day, month, year; // la date du jour en int32
