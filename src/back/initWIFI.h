@@ -1,13 +1,13 @@
 #define ESP_DRD_USE_SPIFFS true
-#define JSON_CONFIG_FILE "/test_config.json"  // JSON configuration file
+#define JSON_CONFIG_FILE "/config.json"  // JSON configuration file
 
 // Gestion du WIFI
 // Déclaration des constantes
 const char *ssid = "Bbox-3FA5475C";
 const char *password = "A6D169EE453122AA5D7A4E7D523CEF";
 
-const char *ssid1 = "Freebox-146FB3";
-const char *password1 = "protis6#-fodito-quomque-ericum";
+//const char *ssid1 = "Freebox-146FB3";
+//const char *password1 = "protis6#-fodito-quomque-ericum";
 
 // Constantes pour Google
 const char* root_ca_googleAPI =\
@@ -45,7 +45,7 @@ const char* root_ca_googleAPI =\
 
  
 // Pour le WIFI Manager
-bool shouldSaveConfig = false;    // Flag for saving data wifimanager
+bool shouldSaveConfig = true;    // Flag for saving data wifimanager
 char testString[50] = "test value";     // Variables to hold data from custom textboxes
 int testNumber = 1234;
 WiFiManager wm;                         // Define WiFiManager Object
@@ -53,7 +53,7 @@ WiFiManager wm;                         // Define WiFiManager Object
 
 void initWIFI(){
  // **************************** Debut Setup WIFI **********************************************
-  WiFi.begin(ssid1, password1);
+  WiFi.begin(ssid, password);
   // lcd.setCursor(15,5);
   // à mapper lvgl lcd.printf("Wifi");
   while (WiFi.status() != WL_CONNECTED) {
@@ -80,6 +80,11 @@ void saveConfigFile()
   json["testString"] = testString;
   json["testNumber"] = testNumber;
  
+  if(!SPIFFS.begin(true)){
+    Serial.println("An Error has occurred while mounting SPIFFS");
+    return;
+  }
+
   // Open config file
   File configFile = SPIFFS.open(JSON_CONFIG_FILE, "w");
   if (!configFile)
@@ -98,7 +103,10 @@ void saveConfigFile()
   // Close file
   configFile.close();
 }
- 
+
+
+  
+
 
 // ********************  Chargement de la config sauvée 
 bool loadConfigFile()
@@ -174,7 +182,7 @@ void configModeCallback(WiFiManager *myWiFiManager)
 void callWIFIManager() // tiré de l'exemple https://dronebotworkshop.com/wifimanager/
 {
   // Change to true when testing to force configuration every time we run
-  bool forceConfig = false;
+  bool forceConfig = true;
  
   bool spiffsSetup = loadConfigFile();
   if (!spiffsSetup)
@@ -326,3 +334,4 @@ String getLocation() {
   client1->stop();
   return reponse;
 }
+

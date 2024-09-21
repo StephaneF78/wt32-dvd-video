@@ -36,17 +36,27 @@
 #include "main.h"
 #include <lvgl.h>
 #include <LovyanGFX.hpp>
+
+// SD CARD - SPI
+#define SDSPI_HOST_ID SPI3_HOST
+#define SD_MISO       GPIO_NUM_38 
+#define SD_MOSI       GPIO_NUM_40
+#define SD_SCLK       GPIO_NUM_39
+#define SD_CS         GPIO_NUM_41
+
+
 #include <ESP32Time.h>
 #include <Timber.h>
 
-#ifdef USE_UI
+//#ifdef USE_UI
 #include "ui/ui.h"
-#endif
+//#endif
 
 
 #include <WIFI.h>
 #include <WiFiClientSecure.h>
 #include <FS.h>
+#include <LittleFS.h>
 #include <SPIFFS.h>               // SPI Flash Syetem Library 
 #include <WiFiManager.h>
 #include <NTPClient.h>            // pour client NTP
@@ -61,17 +71,15 @@
 #include "back/moto.h"
 #include "back/meteo.h"
 
+// On va déclarer LGFX plus haut dans vt
 #ifdef PLUS
 #define SCR 30
 class LGFX : public lgfx::LGFX_Device
 {
 
   lgfx::Panel_ST7796 _panel_instance;
-
   lgfx::Bus_Parallel8 _bus_instance;
-
   lgfx::Light_PWM _light_instance;
-
   lgfx::Touch_FT5x06 _touch_instance;
 
 public:
@@ -80,7 +88,7 @@ public:
     {
       auto cfg = _bus_instance.config();
 
-      cfg.port = 0;
+      cfg.port = 0; //sbi mis en commentaire
       cfg.freq_write = 40000000;
       cfg.pin_wr = 47; // pin number connecting WR
       cfg.pin_rd = -1; // pin number connecting RD
@@ -124,7 +132,7 @@ public:
       cfg.invert = true;
       cfg.rgb_order = false;
       cfg.dlen_16bit = false;
-      cfg.bus_shared = true;
+      cfg.bus_shared = false;    // sbi false à la place de true
 
       _panel_instance.config(cfg);
     }
@@ -132,10 +140,10 @@ public:
     {                                      // Set backlight control. (delete if not necessary)
       auto cfg = _light_instance.config(); // Get the structure for backlight configuration.
 
-      cfg.pin_bl = 45;     // pin number to which the backlight is connected
+      cfg.pin_bl = 45;     // pin number to which the backlight is connected 45 modifié en 23
       cfg.invert = false;  // true to invert backlight brightness
-      cfg.freq = 44100;    // backlight PWM frequency
-      cfg.pwm_channel = 0; // PWM channel number to use
+      cfg.freq = 44100;    // 44100 -> backlight PWM frequency
+      cfg.pwm_channel = 7; // PWM channel number to use SBI 7 à la place de 0)
 
       _light_instance.config(cfg);
       _panel_instance.setLight(&_light_instance); // Sets the backlight to the panel.
@@ -153,7 +161,7 @@ public:
       cfg.offset_rotation = 0;
 
       // For I2C connection
-      cfg.i2c_port = 0;    // Select I2C to use (0 or 1)
+      cfg.i2c_port = 0;    // Select I2C to use (0 or 1) SBI de 0 à 1
       cfg.i2c_addr = 0x38; // I2C device address number
       cfg.pin_sda = 6;     // pin number where SDA is connected
       cfg.pin_scl = 5;     // pin number to which SCL is connected
@@ -331,6 +339,65 @@ void logCallback(Level level, unsigned long time, String message)
   }
 }
 
+// Déclaration CB IHM LVGL
+static void luminosite_event_cb(lv_event_t * e)
+{
+    lv_obj_t * Luminosite = lv_event_get_target(e);
+    char buf[8];
+    lv_snprintf(buf, sizeof(buf), "%d%%", (int)lv_slider_get_value(ui_Luminosite));
+    lv_label_set_text(ui_LabelLuminosite, buf);
+    tft.setBrightness((int) lv_slider_get_value(ui_Luminosite));
+   
+}
+
+static void enregistrer_event_cb(lv_event_t * e) //ui_event_button_down6_buttondown
+{
+    Serial.println("Enregistrer la conf");    
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * btn = lv_event_get_target(e);
+    if(event_code == LV_EVENT_PRESSED) {
+        static uint8_t cnt = 0;
+        cnt++;
+        //saveConfigFile();
+        Serial.println("Enregistrer via Event Pressed  la conf");
+        /*Get the first child of the button which is the label and change its text*/
+        lv_obj_t * label = lv_obj_get_child(ui_bpenregistrer, 0);
+        lv_label_set_text_fmt(label, "Enreg: %d", cnt);
+    }
+   
+}
+
+
+
+#define FORMAT_LITTLEFS_IF_FAILED true
+void writeFile(fs::FS &fs, const char *path, const char *message) {
+  Serial.printf("Writing file: %s\r\n", path);
+
+  File file = fs.open(path, FILE_WRITE);
+  if (!file) {
+    Serial.println("- failed to open file for writing");
+    return;
+  }
+  if (file.print(message)) {
+    Serial.println("- file written");
+  } else {
+    Serial.println("- write failed");
+  }
+  file.close();
+}
+
+
+void startLittleFS() {                     // https://github.com/espressif/arduino-esp32/blob/master/libraries/LittleFS/examples/LITTLEFS_test/LITTLEFS_test.ino#L16                                                                                  // Start the LittleFS and list all contents
+  //LittleFS.begin();
+  Serial.println("LittleFS started. Contents:");
+    if (!LittleFS.begin(FORMAT_LITTLEFS_IF_FAILED)) {
+      Serial.println("LittleFS Mount Failed");
+      return;
+    }
+    writeFile(LittleFS, "/hello.txt", "Hello ");
+}
+
+
 void setup()
 {
   Serial.begin(115200);
@@ -344,6 +411,8 @@ void setup()
   tft.init();
   tft.initDMA();
   tft.startWrite();
+  int screen_brightness = 50;
+  tft.setBrightness(screen_brightness);
 
   lv_init();
 
@@ -408,6 +477,7 @@ void setup()
     Timber.i("Setup done");
   }
 
+  lv_obj_add_event_cb(ui_Luminosite, luminosite_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
   initWIFI();   // oubien on part sur la connection directe avec SSID en dur
   // ************ fin init WIFI ****************
   initTimeNTP(); // Démarre la lecture de l'heure  ntp
@@ -415,9 +485,14 @@ void setup()
   //setupMontreRonde();
   setSynchroDate();
   getLocation(); // retrouve la localisation via google et le WIFI et stocke ds var globales
-  getRTEData();
-  getMOTOData();
-  getMETEOData();    
+  getRTEData();   // lecture RTE couleurs du jour et lendemain
+  getMOTOData();  // Récup des données moto dispo
+  getMETEOData(); // Récupère la météo locale
+  tft.setBrightness(screen_brightness);    // Ca fonctionne pas
+  //callWIFIManager();
+  //initSDCard();
+  startLittleFS();
+
 
 }
 
@@ -457,11 +532,13 @@ uint32_t meteotimerCurrent=0; // Pour inclure un évènement dans la boucle time
 uint32_t meteotimerPrevious=0;
 
   heuretimerCurrent= lgfx::millis();
-  if ( (heuretimerCurrent-heuretimerPrevious) > 1000) { //15' = 1000ms * 60 * 15 et 30' 1000*60*30
+  if ( (heuretimerCurrent-heuretimerPrevious) > 1000) { //1" = 1000ms * 60 * 15 et 30' 1000*60*30
       heuretimerPrevious = heuretimerCurrent; 
       count=setSynchroHour(); // Resynchro avec l'heure NTP
       // surveiller le Heap
-      Serial.printf("\nStack:%d,Heap:%lu\n", uxTaskGetStackHighWaterMark(NULL), (unsigned long)ESP.getFreeHeap());
+      //Serial.printf("\nStack:%d,Heap:%lu\n", uxTaskGetStackHighWaterMark(NULL), (unsigned long)ESP.getFreeHeap());
+      // tft.setBrightness(20);    // Ca fonctionne pas
+
     }
 
   RTEtimerCurrent= lgfx::millis();
@@ -472,3 +549,4 @@ uint32_t meteotimerPrevious=0;
     }
   delay(5);
 }
+

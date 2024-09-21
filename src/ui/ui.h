@@ -53,10 +53,10 @@ void ui_event_day2(lv_event_t * e);
 extern lv_obj_t * ui_day2;
 extern lv_obj_t * ui_month2;
 extern lv_obj_t * ui_year2;
-extern lv_obj_t * ui_weather_title_group_2;
 extern lv_obj_t * ui_weather_group_5;
 extern lv_obj_t * ui_degree_7;
 extern lv_obj_t * ui_cloud_fog_3;
+extern lv_obj_t * ui_weather_title_group_2;
 void ui_event_button_down1_buttondown(lv_event_t * e);
 extern lv_obj_t * ui_button_down1;
 extern lv_obj_t * ui_clock_group;
@@ -102,6 +102,35 @@ extern lv_obj_t * ui_sun;
 extern lv_obj_t * ui_clouds;
 void ui_event_button_down3_buttondown(lv_event_t * e);
 extern lv_obj_t * ui_button_down3;
+// SCREEN: ui_LogErreurs
+void ui_LogErreurs_screen_init(void);
+void ui_event_LogErreurs(lv_event_t * e);
+extern lv_obj_t * ui_LogErreurs;
+extern lv_obj_t * ui_bg_5;
+void ui_event_button_down2_buttondown(lv_event_t * e);
+extern lv_obj_t * ui_button_down2;
+extern lv_obj_t * ui_Log;
+void ui_event_bpconf(lv_event_t * e);
+extern lv_obj_t * ui_bpconf;
+extern lv_obj_t * ui_Label2;
+// SCREEN: ui_Moto
+void ui_Moto_screen_init(void);
+void ui_event_Moto(lv_event_t * e);
+extern lv_obj_t * ui_Moto;
+extern lv_obj_t * ui_bg_6;
+extern lv_obj_t * ui_BgZero;
+extern lv_obj_t * ui_priseCharge;
+extern lv_obj_t * ui_flashAlim;
+void ui_event_button_down5_buttondown(lv_event_t * e);
+extern lv_obj_t * ui_button_down5;
+extern lv_obj_t * ui_labelCharge;
+void ui_event_jaugeCharge1(lv_event_t * e);
+extern lv_obj_t * ui_jaugeCharge1;
+extern lv_obj_t * ui_ChargePCT2;
+extern lv_obj_t * ui_ChargePCT3;
+extern lv_obj_t * ui_enCharge;
+extern lv_obj_t * ui_analyseMoto;
+extern lv_obj_t * ui_labelAutoRest;
 // SCREEN: ui_weather_2
 void ui_weather_2_screen_init(void);
 void ui_event_weather_2(lv_event_t * e);
@@ -125,41 +154,33 @@ extern lv_obj_t * ui_forecast_group1;
 extern lv_obj_t * ui_forecast_group2;
 void ui_event_button_down4_buttondown(lv_event_t * e);
 extern lv_obj_t * ui_button_down4;
-// SCREEN: ui_LogErreurs
-void ui_LogErreurs_screen_init(void);
-void ui_event_LogErreurs(lv_event_t * e);
-extern lv_obj_t * ui_LogErreurs;
-extern lv_obj_t * ui_bg_5;
-void ui_event_button_down2_buttondown(lv_event_t * e);
-extern lv_obj_t * ui_button_down2;
-extern lv_obj_t * ui_Log;
-// SCREEN: ui_Moto
-void ui_Moto_screen_init(void);
-void ui_event_Moto(lv_event_t * e);
-extern lv_obj_t * ui_Moto;
-extern lv_obj_t * ui_bg_6;
-extern lv_obj_t * ui_BgZero;
-extern lv_obj_t * ui_priseCharge;
-extern lv_obj_t * ui_flashAlim;
-void ui_event_button_down5_buttondown(lv_event_t * e);
-extern lv_obj_t * ui_button_down5;
-extern lv_obj_t * ui_labelCharge;
-void ui_event_jaugeCharge1(lv_event_t * e);
-extern lv_obj_t * ui_jaugeCharge1;
-extern lv_obj_t * ui_ChargePCT2;
-extern lv_obj_t * ui_ChargePCT3;
-extern lv_obj_t * ui_enCharge;
-extern lv_obj_t * ui_analyseMoto;
-extern lv_obj_t * ui_labelAutoRest;
+// SCREEN: ui_Config
+void ui_Config_screen_init(void);
+void ui_event_Config(lv_event_t * e);
+extern lv_obj_t * ui_Config;
+extern lv_obj_t * ui_bg_7;
+void ui_event_button_down6_buttondown(lv_event_t * e);
+extern lv_obj_t * ui_button_down6;
+extern lv_obj_t * ui_Container1;
+void ui_event_Luminosite(lv_event_t * e);
+extern lv_obj_t * ui_Luminosite;
+extern lv_obj_t * ui_LabelLuminosite;
+extern lv_obj_t * ui_ssid;
+void ui_event_password(lv_event_t * e);
+extern lv_obj_t * ui_password;
+void ui_event_bpenregistrer(lv_event_t * e);
+extern lv_obj_t * ui_bpenregistrer;
+extern lv_obj_t * ui_Label1;
+void ui_event_Keyboard1(lv_event_t * e);
+extern lv_obj_t * ui_Keyboard1;
 void ui_event____initial_actions0(lv_event_t * e);
 extern lv_obj_t * ui____initial_actions0;
 
 
 LV_IMG_DECLARE(ui_img_fondmulticolor_png);    // assets/FondMulticolor.png
 LV_IMG_DECLARE(ui_img_192753598);    // assets/RollexCadranPaint-RemoveBG.png
-LV_IMG_DECLARE(ui_img_bptempobleu_50_png);    // assets/BPTempoBleu_50.png
+LV_IMG_DECLARE(ui_img_x_png);    // assets/x.png
 LV_IMG_DECLARE(ui_img_ampoulebleu_png);    // assets/AmpouleBleu.png
-LV_IMG_DECLARE(ui_img_bptemporouge50_png);    // assets/BPTempoRouge50.png
 LV_IMG_DECLARE(ui_img_weather_sun_cloud_png);    // assets/weather_sun_cloud.png
 LV_IMG_DECLARE(ui_img_weather_png);    // assets/weather.png
 LV_IMG_DECLARE(ui_img_btn_bg_3_png);    // assets/btn_bg_3.png
@@ -172,6 +193,10 @@ LV_IMG_DECLARE(ui_img_pression_png);    // assets/pression.png
 LV_IMG_DECLARE(ui_img_wind_png);    // assets/wind.png
 LV_IMG_DECLARE(ui_img_sun_png);    // assets/sun.png
 LV_IMG_DECLARE(ui_img_50d2x_png);    // assets/50d2x.png
+LV_IMG_DECLARE(ui_img_fondmulticolor1_png);    // assets/FondMulticolor1.png
+LV_IMG_DECLARE(ui_img_zerotrans1_png);    // assets/ZeroTrans1.png
+LV_IMG_DECLARE(ui_img_prise100trans_png);    // assets/prise100trans.png
+LV_IMG_DECLARE(ui_img_flash_png);    // assets/flash.png
 LV_IMG_DECLARE(ui_img_weather_sun_png);    // assets/weather_sun.png
 LV_IMG_DECLARE(ui_img_01d2x_png);    // assets/01d2x.png
 LV_IMG_DECLARE(ui_img_02d2x_png);    // assets/02d2x.png
@@ -180,9 +205,6 @@ LV_IMG_DECLARE(ui_img_03d2x_png);    // assets/03d2x.png
 LV_IMG_DECLARE(ui_img_03n2x_png);    // assets/03n2x.png
 LV_IMG_DECLARE(ui_img_04d2x_png);    // assets/04d2x.png
 LV_IMG_DECLARE(ui_img_weather_cloud_png);    // assets/weather_cloud.png
-LV_IMG_DECLARE(ui_img_zerotrans1_png);    // assets/ZeroTrans1.png
-LV_IMG_DECLARE(ui_img_prise100trans_png);    // assets/prise100trans.png
-LV_IMG_DECLARE(ui_img_flash_png);    // assets/flash.png
 LV_IMG_DECLARE(ui_img_01n2x_png);    // assets/01n2x.png
 LV_IMG_DECLARE(ui_img_04n2x_png);    // assets/04n2x.png
 LV_IMG_DECLARE(ui_img_09d2x_png);    // assets/09d2x.png
@@ -205,13 +227,14 @@ LV_IMG_DECLARE(ui_img_boutontemporouge50_png);    // assets/BoutonTempoRouge50.p
 LV_IMG_DECLARE(ui_img_boutontemporouge70_png);    // assets/BoutonTempoRouge70.png
 LV_IMG_DECLARE(ui_img_boutontemporougefondnoir_png);    // assets/BoutonTempoRougefondNoir.png
 LV_IMG_DECLARE(ui_img_bptempoblanc_50_png);    // assets/BPTempoBlanc 50.png
+LV_IMG_DECLARE(ui_img_bptempobleu_50_png);    // assets/BPTempoBleu_50.png
+LV_IMG_DECLARE(ui_img_bptemporouge50_png);    // assets/BPTempoRouge50.png
 LV_IMG_DECLARE(ui_img_btn_bg_1_png);    // assets/btn_bg_1.png
 LV_IMG_DECLARE(ui_img_btn_bg_2_png);    // assets/btn_bg_2.png
 LV_IMG_DECLARE(ui_img_clockwise_hour_png);    // assets/clockwise_hour.png
 LV_IMG_DECLARE(ui_img_clockwise_min_png);    // assets/clockwise_min.png
 LV_IMG_DECLARE(ui_img_clockwise_sec_png);    // assets/clockwise_sec.png
 LV_IMG_DECLARE(ui_img_clouds_png);    // assets/clouds.png
-LV_IMG_DECLARE(ui_img_fondmulticolor1_png);    // assets/FondMulticolor1.png
 LV_IMG_DECLARE(ui_img_grid_png);    // assets/grid.png
 LV_IMG_DECLARE(ui_img_heart_png);    // assets/heart.png
 LV_IMG_DECLARE(ui_img_heart2_png);    // assets/heart2.png
@@ -233,7 +256,6 @@ LV_IMG_DECLARE(ui_img_weather_cloud_fog_png);    // assets/weather_cloud_fog.png
 LV_IMG_DECLARE(ui_img_1027436578);    // assets/WT32-SC01-bg1.png
 LV_IMG_DECLARE(ui_img_299354449);    // assets/WT32-SC01-bg2.png
 LV_IMG_DECLARE(ui_img_1381083628);    // assets/WT32-SC01-bg3.png
-LV_IMG_DECLARE(ui_img_x_png);    // assets/x.png
 
 
 

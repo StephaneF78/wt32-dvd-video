@@ -39,3 +39,4 @@ int brightness = 55; // Luminosité rétroéclairage par défaut
 
 static constexpr uint64_t oneday = 86400000;  // 1 jour = 1000ms x 60sec x 60min x 24h = 86400000
 static uint64_t count = rand() % oneday;      // Heure actuelle (compteur de millisecondes)
+

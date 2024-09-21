@@ -10,6 +10,12 @@
 extern "C" {
 #endif
 
+void luminosite(lv_event_t * e);
+void saveConfigFile(void);
+void startLittleFS(void);
+void enregistrer(lv_event_t * e);
+void validerWifi(lv_event_t * e);
+
 #ifdef __cplusplus
 } /*extern "C"*/
 #endif

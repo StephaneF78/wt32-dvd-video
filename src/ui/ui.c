@@ -45,10 +45,10 @@ void ui_event_day2(lv_event_t * e);
 lv_obj_t * ui_day2;
 lv_obj_t * ui_month2;
 lv_obj_t * ui_year2;
-lv_obj_t * ui_weather_title_group_2;
 lv_obj_t * ui_weather_group_5;
 lv_obj_t * ui_degree_7;
 lv_obj_t * ui_cloud_fog_3;
+lv_obj_t * ui_weather_title_group_2;
 void ui_event_button_down1_buttondown(lv_event_t * e);
 lv_obj_t * ui_button_down1;
 lv_obj_t * ui_clock_group;
@@ -100,6 +100,39 @@ void ui_event_button_down3_buttondown(lv_event_t * e);
 lv_obj_t * ui_button_down3;
 
 
+// SCREEN: ui_LogErreurs
+void ui_LogErreurs_screen_init(void);
+void ui_event_LogErreurs(lv_event_t * e);
+lv_obj_t * ui_LogErreurs;
+lv_obj_t * ui_bg_5;
+void ui_event_button_down2_buttondown(lv_event_t * e);
+lv_obj_t * ui_button_down2;
+lv_obj_t * ui_Log;
+void ui_event_bpconf(lv_event_t * e);
+lv_obj_t * ui_bpconf;
+lv_obj_t * ui_Label2;
+
+
+// SCREEN: ui_Moto
+void ui_Moto_screen_init(void);
+void ui_event_Moto(lv_event_t * e);
+lv_obj_t * ui_Moto;
+lv_obj_t * ui_bg_6;
+lv_obj_t * ui_BgZero;
+lv_obj_t * ui_priseCharge;
+lv_obj_t * ui_flashAlim;
+void ui_event_button_down5_buttondown(lv_event_t * e);
+lv_obj_t * ui_button_down5;
+lv_obj_t * ui_labelCharge;
+void ui_event_jaugeCharge1(lv_event_t * e);
+lv_obj_t * ui_jaugeCharge1;
+lv_obj_t * ui_ChargePCT2;
+lv_obj_t * ui_ChargePCT3;
+lv_obj_t * ui_enCharge;
+lv_obj_t * ui_analyseMoto;
+lv_obj_t * ui_labelAutoRest;
+
+
 // SCREEN: ui_weather_2
 void ui_weather_2_screen_init(void);
 void ui_event_weather_2(lv_event_t * e);
@@ -125,34 +158,25 @@ void ui_event_button_down4_buttondown(lv_event_t * e);
 lv_obj_t * ui_button_down4;
 
 
-// SCREEN: ui_LogErreurs
-void ui_LogErreurs_screen_init(void);
-void ui_event_LogErreurs(lv_event_t * e);
-lv_obj_t * ui_LogErreurs;
-lv_obj_t * ui_bg_5;
-void ui_event_button_down2_buttondown(lv_event_t * e);
-lv_obj_t * ui_button_down2;
-lv_obj_t * ui_Log;
-
-
-// SCREEN: ui_Moto
-void ui_Moto_screen_init(void);
-void ui_event_Moto(lv_event_t * e);
-lv_obj_t * ui_Moto;
-lv_obj_t * ui_bg_6;
-lv_obj_t * ui_BgZero;
-lv_obj_t * ui_priseCharge;
-lv_obj_t * ui_flashAlim;
-void ui_event_button_down5_buttondown(lv_event_t * e);
-lv_obj_t * ui_button_down5;
-lv_obj_t * ui_labelCharge;
-void ui_event_jaugeCharge1(lv_event_t * e);
-lv_obj_t * ui_jaugeCharge1;
-lv_obj_t * ui_ChargePCT2;
-lv_obj_t * ui_ChargePCT3;
-lv_obj_t * ui_enCharge;
-lv_obj_t * ui_analyseMoto;
-lv_obj_t * ui_labelAutoRest;
+// SCREEN: ui_Config
+void ui_Config_screen_init(void);
+void ui_event_Config(lv_event_t * e);
+lv_obj_t * ui_Config;
+lv_obj_t * ui_bg_7;
+void ui_event_button_down6_buttondown(lv_event_t * e);
+lv_obj_t * ui_button_down6;
+lv_obj_t * ui_Container1;
+void ui_event_Luminosite(lv_event_t * e);
+lv_obj_t * ui_Luminosite;
+lv_obj_t * ui_LabelLuminosite;
+lv_obj_t * ui_ssid;
+void ui_event_password(lv_event_t * e);
+lv_obj_t * ui_password;
+void ui_event_bpenregistrer(lv_event_t * e);
+lv_obj_t * ui_bpenregistrer;
+lv_obj_t * ui_Label1;
+void ui_event_Keyboard1(lv_event_t * e);
+lv_obj_t * ui_Keyboard1;
 void ui_event____initial_actions0(lv_event_t * e);
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_bg[3] = {&ui_img_bg1_png, &ui_img_bg2_png, &ui_img_bg3_png};
@@ -640,27 +664,6 @@ void ui_event_button_down3_buttondown(lv_event_t * e)
         _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
     }
 }
-void ui_event_weather_2(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
-        lv_indev_wait_release(lv_indev_get_act());
-        _ui_screen_change(&ui_weather_1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_1_screen_init);
-    }
-    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
-        lv_indev_wait_release(lv_indev_get_act());
-        _ui_screen_change(&ui_weather_1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_1_screen_init);
-    }
-}
-void ui_event_button_down4_buttondown(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_CLICKED) {
-        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
-    }
-}
 void ui_event_LogErreurs(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -671,7 +674,7 @@ void ui_event_LogErreurs(lv_event_t * e)
     }
     if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
         lv_indev_wait_release(lv_indev_get_act());
-        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+        _ui_screen_change(&ui_Config, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_Config_screen_init);
     }
 }
 void ui_event_button_down2_buttondown(lv_event_t * e)
@@ -680,6 +683,14 @@ void ui_event_button_down2_buttondown(lv_event_t * e)
     lv_obj_t * target = lv_event_get_target(e);
     if(event_code == LV_EVENT_CLICKED) {
         _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+}
+void ui_event_bpconf(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_PRESSED) {
+        _ui_screen_change(&ui_Config, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Config_screen_init);
     }
 }
 void ui_event_Moto(lv_event_t * e)
@@ -719,6 +730,80 @@ void ui_event_jaugeCharge1(lv_event_t * e)
         _ui_screen_change(&ui_Conso_EDF, LV_SCR_LOAD_ANIM_FADE_ON, 500, 0, &ui_Conso_EDF_screen_init);
     }
 }
+void ui_event_weather_2(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_weather_1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_1_screen_init);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_weather_1, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_1_screen_init);
+    }
+}
+void ui_event_button_down4_buttondown(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+}
+void ui_event_Config(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_LEFT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_weather_2, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_weather_2_screen_init);
+    }
+    if(event_code == LV_EVENT_GESTURE &&  lv_indev_get_gesture_dir(lv_indev_get_act()) == LV_DIR_RIGHT) {
+        lv_indev_wait_release(lv_indev_get_act());
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+}
+void ui_event_button_down6_buttondown(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_CLICKED) {
+        _ui_screen_change(&ui_watch_analog, LV_SCR_LOAD_ANIM_FADE_ON, 100, 0, &ui_watch_analog_screen_init);
+    }
+}
+void ui_event_Luminosite(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        luminosite(e);
+    }
+}
+void ui_event_password(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_FOCUSED) {
+        _ui_keyboard_set_target(ui_Keyboard1,  ui_password);
+    }
+}
+void ui_event_bpenregistrer(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_PRESSED) {
+        enregistrer(e);
+    }
+}
+void ui_event_Keyboard1(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_KEY &&  lv_event_get_key(e) == LV_KEY_ENTER) {
+        validerWifi(e);
+    }
+}
 void ui_event____initial_actions0(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -747,9 +832,10 @@ void ui_init(void)
     ui_watch_analog_screen_init();
     ui_Conso_EDF_screen_init();
     ui_weather_1_screen_init();
-    ui_weather_2_screen_init();
     ui_LogErreurs_screen_init();
     ui_Moto_screen_init();
+    ui_weather_2_screen_init();
+    ui_Config_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
     lv_obj_add_event_cb(ui____initial_actions0, ui_event____initial_actions0, LV_EVENT_ALL, NULL);
 
