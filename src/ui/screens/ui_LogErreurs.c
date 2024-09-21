@@ -43,10 +43,10 @@ void ui_LogErreurs_screen_init(void)
 
 
     ui_bpconf = lv_btn_create(ui_LogErreurs);
-    lv_obj_set_width(ui_bpconf, 70);
-    lv_obj_set_height(ui_bpconf, 34);
-    lv_obj_set_x(ui_bpconf, -189);
-    lv_obj_set_y(ui_bpconf, 122);
+    lv_obj_set_width(ui_bpconf, 130);
+    lv_obj_set_height(ui_bpconf, 22);
+    lv_obj_set_x(ui_bpconf, -158);
+    lv_obj_set_y(ui_bpconf, 132);
     lv_obj_set_align(ui_bpconf, LV_ALIGN_CENTER);
     lv_obj_set_style_clip_corner(ui_bpconf, true, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_border_color(ui_bpconf, lv_color_hex(0x151313), LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -68,7 +68,7 @@ void ui_LogErreurs_screen_init(void)
     lv_obj_set_style_text_line_space(ui_bpconf, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui_bpconf, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_text_decor(ui_bpconf, LV_TEXT_DECOR_UNDERLINE, LV_PART_MAIN | LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui_bpconf, &lv_font_montserrat_14, LV_PART_MAIN | LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui_bpconf, &lv_font_montserrat_12, LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui_bpconf, lv_color_hex(0x707070), LV_PART_MAIN | LV_STATE_PRESSED);
     lv_obj_set_style_bg_opa(ui_bpconf, 255, LV_PART_MAIN | LV_STATE_PRESSED);
     lv_obj_set_style_clip_corner(ui_bpconf, true, LV_PART_MAIN | LV_STATE_PRESSED);

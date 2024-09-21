@@ -368,6 +368,8 @@ static void enregistrer_event_cb(lv_event_t * e) //ui_event_button_down6_buttond
 }
 
 
+// exemple arduino pour Pour implementation SD : https://github.com/espressif/arduino-esp32/blob/master/libraries/SD/examples/SD_Test/SD_Test.ino
+
 
 #define FORMAT_LITTLEFS_IF_FAILED true
 void writeFile(fs::FS &fs, const char *path, const char *message) {
@@ -387,7 +389,8 @@ void writeFile(fs::FS &fs, const char *path, const char *message) {
 }
 
 
-void startLittleFS() {                     // https://github.com/espressif/arduino-esp32/blob/master/libraries/LittleFS/examples/LITTLEFS_test/LITTLEFS_test.ino#L16                                                                                  // Start the LittleFS and list all contents
+void startLittleFS() {                     
+  // https://github.com/espressif/arduino-esp32/blob/master/libraries/LittleFS/examples/LITTLEFS_test/LITTLEFS_test.ino#L16                                                                                  // Start the LittleFS and list all contents
   //LittleFS.begin();
   Serial.println("LittleFS started. Contents:");
     if (!LittleFS.begin(FORMAT_LITTLEFS_IF_FAILED)) {

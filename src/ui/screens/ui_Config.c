@@ -77,8 +77,8 @@ void ui_Config_screen_init(void)
 
 
     ui_bpenregistrer = lv_btn_create(ui_Config);
-    lv_obj_set_width(ui_bpenregistrer, 170);
-    lv_obj_set_height(ui_bpenregistrer, 34);
+    lv_obj_set_width(ui_bpenregistrer, 168);
+    lv_obj_set_height(ui_bpenregistrer, 24);
     lv_obj_set_x(ui_bpenregistrer, 2);
     lv_obj_set_y(ui_bpenregistrer, 128);
     lv_obj_set_align(ui_bpenregistrer, LV_ALIGN_CENTER);
