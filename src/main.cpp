@@ -55,6 +55,7 @@
 
 #include <WIFI.h>
 #include <WiFiClientSecure.h>
+#include <Preferences.h>
 #include <FS.h>
 #include <LittleFS.h>
 #include <SPIFFS.h>               // SPI Flash Syetem Library 
@@ -352,7 +353,7 @@ static void luminosite_event_cb(lv_event_t * e)
 
 static void enregistrer_event_cb(lv_event_t * e) //ui_event_button_down6_buttondown
 {
-    Serial.println("Enregistrer la conf");    
+    Serial.println("Enregistrer la conf depuis appel main");    
     lv_event_code_t event_code = lv_event_get_code(e);
     lv_obj_t * btn = lv_event_get_target(e);
     if(event_code == LV_EVENT_PRESSED) {
@@ -372,6 +373,23 @@ static void enregistrer_event_cb(lv_event_t * e) //ui_event_button_down6_buttond
 
 
 #define FORMAT_LITTLEFS_IF_FAILED true
+
+void readFile(fs::FS &fs, const char *path) {
+  Serial.printf("Reading file: %s\r\n", path);
+
+  File file = fs.open(path);
+  if (!file || file.isDirectory()) {
+    Serial.println("- failed to open file for reading");
+    return;
+  }
+
+  Serial.println("- read from file:");
+  while (file.available()) {
+    Serial.write(file.read());
+  }
+  file.close();
+}
+
 void writeFile(fs::FS &fs, const char *path, const char *message) {
   Serial.printf("Writing file: %s\r\n", path);
 
@@ -382,22 +400,41 @@ void writeFile(fs::FS &fs, const char *path, const char *message) {
   }
   if (file.print(message)) {
     Serial.println("- file written");
+   
   } else {
     Serial.println("- write failed");
   }
   file.close();
 }
 
+void appendFile(fs::FS &fs, const char *path, const char *message) {
+  Serial.printf("Appending to file: %s\r\n", path);
+
+  File file = fs.open(path, FILE_APPEND);
+  if (!file) {
+    Serial.println("- failed to open file for appending");
+    return;
+  }
+  if (file.print(message)) {
+    Serial.println("- message appended");
+  } else {
+    Serial.println("- append failed");
+  }
+  file.close();
+}
 
 void startLittleFS() {                     
   // https://github.com/espressif/arduino-esp32/blob/master/libraries/LittleFS/examples/LITTLEFS_test/LITTLEFS_test.ino#L16                                                                                  // Start the LittleFS and list all contents
-  //LittleFS.begin();
-  Serial.println("LittleFS started. Contents:");
+    //LittleFS.begin();
     if (!LittleFS.begin(FORMAT_LITTLEFS_IF_FAILED)) {
       Serial.println("LittleFS Mount Failed");
       return;
     }
-    writeFile(LittleFS, "/hello.txt", "Hello ");
+    Serial.println("LittleFS started. Contents:");
+    writeFile(LittleFS, "/config.json", "Hello worl \n and good luck \n");
+    readFile(LittleFS, "/config.json");
+    appendFile(LittleFS, "/config.json", "\n and asta la vista !\r\n");
+    readFile(LittleFS, "/config.json");
 }
 
 
@@ -481,7 +518,11 @@ void setup()
   }
 
   lv_obj_add_event_cb(ui_Luminosite, luminosite_event_cb, LV_EVENT_VALUE_CHANGED, NULL);
+  //scanWifi();
+  startLittleFS();
+//  initWIFIManager(); // ajout pour WIFI Manager
   initWIFI();   // oubien on part sur la connection directe avec SSID en dur
+  initWIFIManager(); // ajout pour WIFI Manager
   // ************ fin init WIFI ****************
   initTimeNTP(); // Démarre la lecture de l'heure  ntp
   printLocalTime(); // Récupère NTP et affiche l'heure sur l'écran
@@ -494,13 +535,15 @@ void setup()
   tft.setBrightness(screen_brightness);    // Ca fonctionne pas
   //callWIFIManager();
   //initSDCard();
-  startLittleFS();
+  
 
 
 }
 
 void loop()
 {
+  wm.process(); // WifiManager
+
   lv_timer_handler(); /* let the GUI do its work */
   // reprise du code arduino
   static uint32_t p_milli = 0;
