@@ -4,7 +4,7 @@
 // Gestion du WIFI
 // Déclaration des constantes
 const char *ssid = "Bbox-3FA5475C";
-const char *password = "A6D169EE453122AA5D7A4E7D523CEF";
+const char *password = "A6D169EE453122AA5D7A4E7D523CEF"; // F
 
 //const char *ssid1 = "Freebox-146FB3";
 //const char *password1 = "protis6#-fodito-quomque-ericum";
@@ -48,11 +48,123 @@ const char* root_ca_googleAPI =\
 bool shouldSaveConfig = true;    // Flag for saving data wifimanager
 char testString[50] = "test value";     // Variables to hold data from custom textboxes
 int testNumber = 1234;
+
+
+// Pour gestion paramétré du WIFI
+Preferences preferences;
+const char * wifiSSID = "Montre-meteo-tempo";
+
+constexpr size_t tailleMaxTexte = 50;
+const char* parametresDesc[] = {"longueur", "largeur", "hauteur"};
+const size_t nbParams = sizeof parametresDesc / sizeof * parametresDesc;
+char parametresTxt[nbParams][tailleMaxTexte] = {"10", "20", "30"};
+long parametres[nbParams];
+
 WiFiManager wm;                         // Define WiFiManager Object
+WiFiManagerParameter wmParameters[nbParams];
 // Fin variables pour wifiManager
+
+// ----------------------------------------------------------------
+// WiFi Manager et Préférences
+// ----------------------------------------------------------------
+
+void printConfig() {
+  Serial.println("\n---------------\nConfiguration Enregistrée:");
+  for (size_t i = 0; i < nbParams; i++) {
+    Serial.print(parametresDesc[i]); Serial.print(" -> \""); Serial.print(parametresTxt[i]); Serial.print("\" -> "); Serial.println(parametres[i]);
+  }
+  Serial.println();
+}
+
+void callbackParametres () {
+  if (preferences.begin("parametres", false)) {
+    for (size_t i = 0; i < nbParams; i++) {
+      const char * vTxt = wmParameters[i].getValue();
+      char * ptr = nullptr;
+      long v = strtol(vTxt, &ptr, 10); // base 10
+      if (ptr && *ptr == '\0') {
+        // le parsing s'est bien passé on définit la valeur textuelle et numérique
+        parametres[i] = v;
+        snprintf(parametresTxt[i], tailleMaxTexte, "%s", vTxt);
+        preferences.putString(parametresDesc[i], parametresTxt[i]); // on sauve pour la prochaine fois
+      } else {
+        // ça s'est mal passsé on ne modifie pas
+        Serial.print("erreur format pour ");
+        Serial.println(parametresTxt[i]);
+      }
+    }
+    preferences.end();
+  } else {
+    Serial.println("Error writing Prefernces");
+  }
+  printConfig();
+}
+
+// ----------------------------------------------------------------
+
+void initWIFIManager(){
+    // Documentation wifimanager littlefs : https://github.com/tzapu/WiFiManager/issues/1437
+    // avec SPFSS https://github.com/zhouhan0126/WIFIMANAGER-ESP32/blob/master/examples/OnDemandConfigPortal/OnDemandConfigPortal.ino
+
+
+   // on lit les valeurs de configuration
+  if (preferences.begin("parametres", false)) {
+
+    for (size_t i = 0; i < nbParams; i++) {
+      char * ptr = nullptr;
+      char vTxt[tailleMaxTexte];
+      snprintf(vTxt, tailleMaxTexte, "%s", preferences.getString(parametresDesc[i], parametresTxt[i]).c_str());
+      long v = strtol(vTxt, &ptr, 10); // base 10
+
+      if (ptr && *ptr == '\0') {
+        // le parsing s'est bien passé on définit la valeur textuelle et numérique
+        parametres[i] = v;
+        snprintf(parametresTxt[i], tailleMaxTexte, "%s", vTxt);
+      } else {
+        // ça s'est mal passsé
+        Serial.println("erreur parsing");
+        parametres[i] = atoi(parametresTxt[i]); // on prend la valeur par défaut
+        preferences.putString(parametresDesc[i], parametresTxt[i]); // on sauve pour la prochaine fois
+      }
+    }
+    preferences.end();
+  } else {
+    Serial.println("Erreur Preferences");
+  }
+
+  // gestion portail config
+  WiFi.mode(WIFI_STA); //  esp par défaut sur STA+AP (ou mettre WIFI_AP)
+
+  wm.setDebugOutput(false);
+
+  for (size_t i = 0; i < nbParams; i++) { // on créee les champs spécifiques
+    new (&(wmParameters[i])) WiFiManagerParameter(parametresDesc[i], parametresDesc[i], parametresTxt[i], tailleMaxTexte);
+    wm.addParameter(&(wmParameters[i]));
+  }
+  wm.setConfigPortalBlocking(false);
+  wm.setSaveParamsCallback(callbackParametres);
+
+  std::vector<const char *> menu = {"param", "sep", "restart", "exit"};
+  // wm.setMenu(menu);
+  wm.startConfigPortal(wifiSSID);
+
+  wm.setTimeout(50);
+  if(!wm.autoConnect("AutoConnectAP")) {
+    Serial.println("failed to connect and hit timeout");
+    delay(3000);
+    //reset and try again, or maybe put it to deep sleep
+    ESP.restart();
+    delay(5000);
+  } 
+  Serial.print("\nSystème prêt. Accédez au réseau Wi-Fi "); Serial.println(wifiSSID);
+  printConfig();
+}
+
 
 void initWIFI(){
  // **************************** Debut Setup WIFI **********************************************
+  // 
+  //WiFi.mode(WIFI_AUTH_WEP);
   WiFi.begin(ssid, password);
   // lcd.setCursor(15,5);
   // à mapper lvgl lcd.printf("Wifi");
@@ -67,6 +179,58 @@ void initWIFI(){
 }
 
 
+String get_encryption_type(wifi_auth_mode_t encryptionType) {
+    switch (encryptionType) {
+        case (WIFI_AUTH_OPEN):
+            return "Open";
+        case (WIFI_AUTH_WEP):
+            return "WEP";
+        case (WIFI_AUTH_WPA_PSK):
+            return "WPA_PSK";
+        case (WIFI_AUTH_WPA2_PSK):
+            return "WPA2_PSK";
+        case (WIFI_AUTH_WPA_WPA2_PSK):
+            return "WPA_WPA2_PSK";
+        case (WIFI_AUTH_WPA2_ENTERPRISE):
+            return "WPA2_ENTERPRISE";
+    }
+    return("Rien");
+}
+
+void scanWifi() {
+  Serial.println("[*] Scanning WiFi network");
+  WiFi.mode(WIFI_STA);
+
+  // WiFi.scanNetworks will return the number of networks found
+  int n = WiFi.scanNetworks();
+  String listeSSID;
+  Serial.println("[*] Scan done");
+  if (n == 0) {
+      Serial.println("[-] No WiFi networks found");
+      
+    } else {
+        Serial.println((String)"[+] " + n + " WiFi networks found\n");
+        for (int i = 0; i < n; ++i) {
+            // Print SSID, RSSI and WiFi Encryption for each network found
+            
+              Serial.print(i + 1);
+              Serial.print(": ");
+              Serial.print(WiFi.SSID(i));
+              listeSSID += WiFi.SSID(i);
+              listeSSID += "\n";
+              Serial.print(" (");
+              Serial.print(WiFi.RSSI(i));
+              Serial.print(" dB) [");
+              Serial.print(get_encryption_type(WiFi.encryptionType(i)));
+              Serial.println("]");
+              delay(10);
+          
+        }
+      }
+    //return(true);
+    Serial.println(listeSSID);
+    lv_dropdown_set_options(ui_ssid, listeSSID.c_str());
+  }
 
 
 // ************************ Sauvegarde la config 
@@ -195,7 +359,7 @@ void callWIFIManager() // tiré de l'exemple https://dronebotworkshop.com/wifima
   WiFi.mode(WIFI_STA);
   
   
-  wm.resetSettings();                               // Reset settings (only for development)
+  // wm.resetSettings();                               // Reset settings (only for development)
   wm.setSaveConfigCallback(saveConfigCallback);     // Set config save notify callback
   wm.setAPCallback(configModeCallback);             // Set callback that gets called when connecting to previous WiFi fails, and enters Access Point mode
  
@@ -334,4 +498,5 @@ String getLocation() {
   client1->stop();
   return reponse;
 }
+
 

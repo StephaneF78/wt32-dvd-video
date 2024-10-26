@@ -23,7 +23,7 @@ void enregistrer(lv_event_t * e)
         cnt++;
         //saveConfigFile();
         Serial.println("Enregistrer via Event Pressed  la conf appel depuis ui_event");
-        saveConfigFile();
+        // saveConfigFile();
         startLittleFS();
         /*Get the first child of the button which is the label and change its text*/
         //lv_obj_t * label = lv_obj_get_child(ui_bpenregistrer, 0);
@@ -36,4 +36,5 @@ void enregistrer(lv_event_t * e)
 void validerWifi(lv_event_t * e)
 {
 	// Your code here
+    Serial.println("Valider et Enregistrer validationWifi");
 }

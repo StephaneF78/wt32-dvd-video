@@ -1,4 +1,5 @@
 // Début des constantes pour récupération des données RTE
+// https://data.rte-france.com/#
 #define identificationRTE   "ZmIxYWMyMmUtYTAwNi00N2E5LThhYjAtYWNjMTMzNzZmMDNjOjExYzcwZGViLTNmMDctNGE5My1hNjA3LWNmZTcxMTc1MTBhMQ=="  // ID Client et ID Secret en base 64
 
 // *****************************************
@@ -68,8 +69,8 @@ void pastille(String couleurJour, String couleurDemain){ //BLUE, WHITE, RED
  
   // Pastille de gauche charger les paramètres sur les deux objets 'changement d'image)
   // Par défaut les pastilles seront rouges
-  lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
-  lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_bptemporouge50_png, NULL);
+  lv_imgbtn_set_src(ui_BPTempo1, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_x_png, NULL); //ui_img_x_png un X par défaut
+  lv_imgbtn_set_src(ui_BPTempo2, LV_IMGBTN_STATE_RELEASED, NULL, &ui_img_x_png, NULL);
 
   if (couleurJour.compareTo("BLUE")==0)  {
     //lcd.fillCircle(x, y, r, BLUE);
@@ -116,11 +117,23 @@ void miseAJourPastille(String date0, String couleur0, String date1, String coule
   String date0Trunc = date0.substring(0,10);
   String date1Trunc = date1.substring(0,10);
   int result0 =  sDateNow.compareTo(date0); // Renvoie -1 si date 0 est le lendemain
-  int result1 =  sDateNow.compareTo(date1);
+  int result1 =  sDateNow.compareTo(date1); // Si pas de 
   // apparement résultat -1 si identique bizarre
-  if (result0 == -1) {pastille( "", couleur0);} // couleurJour, couleurDemain
-  if (result0 == 0) {pastille( couleur0, "");} // couleurJour, couleurDemain
-  if (result1 <= -2) {pastille( couleur1, couleur0);} // couleurJour, couleurDemain
+  if (result0 == -1) {
+    Serial.println("*** Mise à jour pastille result result0=-1");
+    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
+    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
+    pastille( "", couleur0);} // couleurJour, couleurDemain
+  if (result0 == 0) {
+    Serial.println("*** Mise à jour pastille result result0=0");
+    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
+    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
+    pastille( couleur0, "");} // couleurJour, couleurDemain
+  if (result1 <= -2) { // Cas où date date1 = null
+    Serial.println("*** Mise à jour pastille result result1=-2");
+    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
+    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
+    pastille( couleur0, couleur1);} // couleurJour, couleurDemain
 }
 
 
