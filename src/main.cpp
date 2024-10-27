@@ -451,7 +451,7 @@ void setup()
   tft.init();
   tft.initDMA();
   tft.startWrite();
-  int screen_brightness = 50;
+  int screen_brightness = 43;
   tft.setBrightness(screen_brightness);
 
   lv_init();

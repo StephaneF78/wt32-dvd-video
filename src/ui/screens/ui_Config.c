@@ -36,7 +36,7 @@ void ui_Config_screen_init(void)
     lv_obj_clear_flag(ui_Container1, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
     ui_Luminosite = lv_slider_create(ui_Container1);
-    lv_slider_set_value(ui_Luminosite, 70, LV_ANIM_OFF);
+    lv_slider_set_value(ui_Luminosite, 50, LV_ANIM_OFF);
     if(lv_slider_get_mode(ui_Luminosite) == LV_SLIDER_MODE_RANGE) lv_slider_set_left_value(ui_Luminosite, 0, LV_ANIM_OFF);
     lv_obj_set_width(ui_Luminosite, 346);
     lv_obj_set_height(ui_Luminosite, 20);

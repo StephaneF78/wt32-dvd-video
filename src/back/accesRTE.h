@@ -113,28 +113,37 @@ void miseAJourPastille(String date0, String couleur0, String date1, String coule
   char dateNow[MAX_SIZE];
   struct tm *pTime = localtime(&timestamp );
   strftime(dateNow, MAX_SIZE, "%Y-%m-%d", pTime); // mettre au format 2023-03-05
+ // besoin de ça car parfois nous avons que la date du lendemain
   String sDateNow = dateNow;
   String date0Trunc = date0.substring(0,10);
   String date1Trunc = date1.substring(0,10);
-  int result0 =  sDateNow.compareTo(date0); // Renvoie -1 si date 0 est le lendemain
-  int result1 =  sDateNow.compareTo(date1); // Si pas de 
+  int result0 =  sDateNow.compareTo(date0.c_str()); // Renvoie -1 si date 0 est le lendemain
+  int result1 =  sDateNow.compareTo(date1.c_str()); // Si pas de 
   // apparement résultat -1 si identique bizarre
+  Serial.println("*** Mise à jour pastille entrée");
+  Serial.printf("date0Trunc = %s et sDateNow = %s et couleur0 = %S et result0 = %i \n", date0Trunc.c_str(), sDateNow.c_str(), couleur0.c_str(), result0);
+  Serial.printf("date1Trunc = %s et sDateNow = %s et couleur1 = %S et result1 = %i \n", date1Trunc.c_str(), sDateNow.c_str(), couleur1.c_str(), result1);
+
+  
   if (result0 == -1) {
     Serial.println("*** Mise à jour pastille result result0=-1");
-    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
-    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
+    Serial.print("date0Trunc = "); Serial.println(date0Trunc);
+    Serial.print("date1Trunc = "); Serial.println(date1Trunc);
     pastille( "", couleur0);} // couleurJour, couleurDemain
   if (result0 == 0) {
     Serial.println("*** Mise à jour pastille result result0=0");
-    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
-    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
-    pastille( couleur0, "");} // couleurJour, couleurDemain
-  if (result1 <= -2) { // Cas où date date1 = null
-    Serial.println("*** Mise à jour pastille result result1=-2");
-    Serial.println("date0Trunc = "); Serial.println(date0Trunc);
-    Serial.println("date1Trunc = "); Serial.println(date1Trunc);
+    Serial.print("date0Trunc = "); Serial.println(date0Trunc);
+    Serial.print("date1Trunc = "); Serial.println(date1Trunc);
     pastille( couleur0, couleur1);} // couleurJour, couleurDemain
-}
+
+    /*
+      if (result1 <= -2) { // Cas où date date1 = null
+        Serial.println("*** Mise à jour pastille result result1=-2");
+        Serial.print("date0Trunc = "); Serial.println(date0Trunc);
+        Serial.print("date1Trunc = "); Serial.println(date1Trunc);
+        pastille( couleur0, couleur1);} // couleurJour, couleurDemain
+    */
+  }
 
 
 
@@ -181,6 +190,7 @@ bool getRTEData() {
         requeteOK = false;
     } else { // parsing effectué
       access_token = doc["access_token"];
+      Serial.printf("*** access token *** %s", access_token);
     }
   } else {
 //    Serial.print("Authentification RTE : erreur HTTP POST: ");
@@ -225,10 +235,35 @@ bool getRTEData() {
   sprintf(MinuteTimezoneM, "%s%s", MinuteTimezoneH, ":00"); // résultat +01:00 Convertir la chaine +0100 en +01:00 pour concaténation de l'appel RTE
 
   strftime(DateDebRTE, sizeof DateDebRTE, "%Y-%m-%dT00:00:00", &Date); // transforme en string formattée  cette date 2023-03-03T00:00:00%2B02:00 ou deb 2023-03-05T00:00:00+01:00
+  // Attention le jour où on bascule alors on envoie le timezone du jour dans la date deb alors que l'api va aller chercher le time zone de la veille  dans l'update_date
+  // Ainsi le jour J de la bascule le 27 on devrait interroger avec deb 2024-10-27T00:00:00+02:00 et fin à 2024-10-29T00:00:00+01:00
+  // => Les indications seront icomplètes lors autour du jour de bascule à l'heure d'hiver/hiver
+  // Sans doute due à l'API qui va comparer avec les date de calcul sur update_date
+  // Exemple ci-dessous
+  /*
+  https://digital.iservices.rte-france.com/open_api/tempo_like_supply_contract/v1/tempo_like_calendars?start_date=2024-10-27T00:00:00+02:00&end_date=2024-10-29T00:00:00+01:00&fallback_status=false
+  "values": [
+            {
+                "start_date": "2024-10-28T00:00:00+01:00",
+                "end_date": "2024-10-29T00:00:00+01:00",
+                "value": "BLUE",
+                "updated_date": "2024-10-27T10:20:00+01:00"
+            },
+            {
+                "start_date": "2024-10-27T00:00:00+02:00",
+                "end_date": "2024-10-28T00:00:00+01:00",
+                "value": "BLUE",
+                "updated_date": "2024-10-26T10:20:00+02:00"
+            }
+        ]
+  
+  */
+
+
+
+
   sprintf(DateDebRTE, "%s%s", DateDebRTE, MinuteTimezoneM); // Concaténation du décalage de temps timezone à la fin de la chaine +01:00
-  // lcd.setTextColor(WHITE, screenColor);
-  // lcd.setCursor(90, 250);
-  // lcd.setTextSize(1);
+  
   // Calcule la date de fin
   //Date = *localtime (&DateJour);       // Copie la date du jour dans la struct TM
   // Date = gmtime ((time_t *)&epochTime); //https://www.cplusplus.com/reference/ctime/gmtime/ recup date du jour
@@ -304,9 +339,19 @@ bool getRTEData() {
         JsonObject values_pos0 = tempo_like_calendars["values"][0];
         String start_date_pos0 = values_pos0["start_date"];
         //const char* end_date_pos0     = values_pos0["end_date"];
+
+        // 27/10/2024 on va prendre updated_date qui correspond à la date de la mise à jour de la couleur
+        /*
+            String updated_date_pos0 = tempo_like_calendars["values"][0]["updated_date"];
+            String couleur0 = tempo_like_calendars["values"][0]["value"];    
+            String updated_date_pos1 = tempo_like_calendars["values"][1]["updated_date"];
+            String couleur1 = tempo_like_calendars["values"][1]["value"];
+            Serial.printf("*** RTE *** updated_date0 = %s et couleur0 = %s\n",updated_date_pos0.c_str(), couleur0.c_str());
+            Serial.printf("*** RTE *** updated_date1 = %s et couleur1 = %s \n",updated_date_pos1.c_str(), couleur1.c_str());
+        */
+
         String couleur_pos0 = values_pos0["value"]; // "BLUE", "WHITE", "RED"
-        Serial.print("*** RTE *** value_pos0=");
-        Serial.println(couleur_pos0);
+        Serial.print("*** RTE *** value_pos0="); Serial.println(couleur_pos0);
   
         //const char* updated_date_pos0 = values_pos0["updated_date"];
         // On prends les deuxièmes valeurs en pos 1
@@ -319,7 +364,9 @@ bool getRTEData() {
 
         // On envoie sur le screen
         Serial.print("*** RTE ***  Avant miseAjourPastille");        
-        miseAJourPastille(start_date_pos0, couleur_pos0, start_date_pos1, couleur_pos1);     
+        miseAJourPastille(start_date_pos0.c_str(), couleur_pos0.c_str(), start_date_pos1.c_str(), couleur_pos1.c_str());
+        // C'est faux d'utiliser la date de mise à jour => faux miseAJourPastille(updated_date_pos0.c_str(), couleur0.c_str(), updated_date_pos1.c_str(), couleur1.c_str());
+             
         Serial.print("*** RTE *** Avant JsonObject tempo_like_calendar");        
 
         for (JsonObject tempofor : doc["tempo_like_calendars"]["values"].as<JsonArray>()) { // On met ds le for les values (là il ne rentre pas !)
